@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>블로그 관리 — 다우지의 블로그</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="/dhamgkdltm.gitblog.io/style.css">
+<link rel="icon" type="image/svg+xml" href="/dhamgkdltm.gitblog.io/assets/icon.svg">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="site-title" href="/dhamgkdltm.gitblog.io/">다우지의 블로그</a>
+    <nav>
+      <a href="/dhamgkdltm.gitblog.io/">글 목록</a>
+      <a href="/dhamgkdltm.gitblog.io/about.html">소개</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <h1>블로그 관리</h1>
+
+  <div id="token-gate" class="admin-box" hidden>
+    <p>관리자 토큰이 필요합니다. 토큰은 이 기기의 브라우저에만 저장됩니다.</p>
+    <input type="password" id="token-input" placeholder="GitHub 토큰 붙여넣기">
+    <button id="token-save" type="button">토큰 저장</button>
+    <p id="token-msg" class="form-msg"></p>
+  </div>
+
+  <div id="admin-main" hidden>
+    <div class="admin-toolbar">
+      <button id="new-post" type="button">+ 새 글 쓰기</button>
+      <button id="token-clear" type="button" class="link-btn">토큰 삭제</button>
+    </div>
+    <p id="admin-msg" class="form-msg"></p>
+
+    <h2>글 목록</h2>
+    <ul id="admin-post-list" class="admin-list"></ul>
+
+    <div id="editor" class="admin-box" hidden>
+      <h2 id="editor-title">글 편집</h2>
+      <label>제목 <input type="text" id="f-title"></label>
+      <label>주소(slug) <input type="text" id="f-slug" placeholder="영문 소문자, 숫자, - 만 사용"></label>
+      <label>날짜 <input type="date" id="f-date"></label>
+      <label>요약 <input type="text" id="f-excerpt"></label>
+      <label class="check"><input type="checkbox" id="f-published"> 공개</label>
+      <label>본문 (마크다운)
+        <textarea id="f-body" rows="14"></textarea>
+      </label>
+      <div class="admin-toolbar">
+        <button id="save-post" type="button">저장</button>
+        <button id="delete-post" type="button" class="danger">삭제</button>
+        <button id="cancel-edit" type="button" class="link-btn">취소</button>
+      </div>
+      <p id="editor-msg" class="form-msg"></p>
+    </div>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p>© 2026 다우지의 블로그</p>
+  </div>
+</footer>
+<script type="module" src="/dhamgkdltm.gitblog.io/assets/admin.js"></script>
+</body>
+</html>
