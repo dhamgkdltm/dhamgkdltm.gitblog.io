@@ -1,4 +1,4 @@
-// 글 보기 페이지: posts/<slug>.md 를 불러와 렌더링한다.
+// 글 보기 페이지: posts/<slug>.txt 를 불러와 렌더링한다.
 const BASE = "/dhamgkdltm.gitblog.io";
 const slug = new URLSearchParams(location.search).get("p") || "";
 
@@ -24,7 +24,7 @@ async function load() {
     return;
   }
   try {
-    const res = await fetch(`${BASE}/posts/${slug}.md`, { cache: "no-store" });
+    const res = await fetch(`${BASE}/posts/${slug}.txt`, { cache: "no-store" });
     if (!res.ok) throw new Error("not found");
     const { meta, body } = parseFrontMatter(await res.text());
     document.title = `${meta.title || slug} — 다우지의 블로그`;

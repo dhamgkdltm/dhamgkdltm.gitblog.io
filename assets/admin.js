@@ -99,8 +99,8 @@ async function togglePublished(slug) {
   const msg = $("admin-msg");
   msg.textContent = "전환 중…";
   try {
-    const from = `${folderOf(entry.published)}/${slug}.md`;
-    const to = `${folderOf(!entry.published)}/${slug}.md`;
+    const from = `${folderOf(entry.published)}/${slug}.txt`;
+    const to = `${folderOf(!entry.published)}/${slug}.txt`;
     const f = await getFile(from);
     if (!f) throw new Error("원본 파일을 찾지 못했습니다.");
     const md = f.text.replace(/^published:.*$/m, `published: ${!entry.published}`);
@@ -137,7 +137,7 @@ function buildMd({ title, date, excerpt, published }, body) {
 async function openEditor(slug) {
   const entry = registry.find((p) => p.slug === slug);
   if (!entry) return;
-  const f = await getFile(`${folderOf(entry.published)}/${slug}.md`);
+  const f = await getFile(`${folderOf(entry.published)}/${slug}.txt`);
   if (!f) { $("admin-msg").textContent = "파일을 불러오지 못했습니다."; return; }
   const { meta, body } = parseFrontMatter(f.text);
   editing = { slug, published: entry.published, sha: f.sha, isNew: false };
@@ -187,13 +187,13 @@ async function savePost() {
   msg.textContent = "저장 중…";
   try {
     const md = buildMd({ title, date, excerpt, published }, body);
-    const newPath = `${folderOf(published)}/${slug}.md`;
+    const newPath = `${folderOf(published)}/${slug}.txt`;
     if (editing.isNew) {
       if (registry.some((p) => p.slug === slug)) throw new Error("이미 있는 주소(slug)입니다.");
       await putFile(newPath, md, `새 글: ${title}`, null);
       registry.push({ slug, title, date, excerpt, published });
     } else {
-      const oldPath = `${folderOf(editing.published)}/${slug}.md`;
+      const oldPath = `${folderOf(editing.published)}/${slug}.txt`;
       if (editing.published !== published) {
         await putFile(newPath, md, `글 수정: ${title}`, null);
         await deleteFile(oldPath, `글 수정(이전 위치 삭제): ${title}`, editing.sha);
@@ -218,7 +218,7 @@ async function deletePost() {
   const msg = $("editor-msg");
   msg.textContent = "삭제 중…";
   try {
-    const path = `${folderOf(editing.published)}/${editing.slug}.md`;
+    const path = `${folderOf(editing.published)}/${editing.slug}.txt`;
     const f = await getFile(path);
     if (f) await deleteFile(path, `글 삭제: ${editing.slug}`, f.sha);
     registry = registry.filter((p) => p.slug !== editing.slug);
