@@ -1,20 +1,6 @@
-// 글 보기 페이지: posts/<slug>.txt 를 불러와 렌더링한다.
+// 글 보기 페이지: posts.json에서 글 정보를, posts/<slug>.txt에서 본문을 불러와 렌더링한다.
 const BASE = "/dhamgkdltm.gitblog.io";
 const slug = new URLSearchParams(location.search).get("p") || "";
-
-function parseFrontMatter(md) {
-  const m = md.match(/^---\n([\s\S]*?)\n---\n?/);
-  const meta = {};
-  let body = md;
-  if (m) {
-    body = md.slice(m[0].length);
-    for (const line of m[1].split("\n")) {
-      const i = line.indexOf(":");
-      if (i > 0) meta[line.slice(0, i).trim()] = line.slice(i + 1).trim();
-    }
-  }
-  return { meta, body };
-}
 
 async function load() {
   const titleEl = document.getElementById("post-title");
@@ -24,12 +10,15 @@ async function load() {
     return;
   }
   try {
+    const reg = await (await fetch(`${BASE}/posts.json`, { cache: "no-store" })).json();
+    const entry = reg.find((p) => p.slug === slug && p.published);
+    if (!entry) throw new Error("not published");
     const res = await fetch(`${BASE}/posts/${slug}.txt`, { cache: "no-store" });
     if (!res.ok) throw new Error("not found");
-    const { meta, body } = parseFrontMatter(await res.text());
-    document.title = `${meta.title || slug} — 다우지의 블로그`;
-    titleEl.textContent = meta.title || slug;
-    document.getElementById("post-date").textContent = meta.date || "";
+    const body = await res.text();
+    document.title = `${entry.title} — 다우지의 블로그`;
+    titleEl.textContent = entry.title;
+    document.getElementById("post-date").textContent = entry.date || "";
     contentEl.innerHTML = marked.parse(body);
     loadGiscus(slug);
   } catch {

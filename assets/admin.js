@@ -103,8 +103,7 @@ async function togglePublished(slug) {
     const to = `${folderOf(!entry.published)}/${slug}.txt`;
     const f = await getFile(from);
     if (!f) throw new Error("원본 파일을 찾지 못했습니다.");
-    const md = f.text.replace(/^published:.*$/m, `published: ${!entry.published}`);
-    await putFile(to, md, `공개 전환: ${entry.title}`, null);
+    await putFile(to, f.text, `공개 전환: ${entry.title}`, null);
     await deleteFile(from, `공개 전환(원본 삭제): ${entry.title}`, f.sha);
     entry.published = !entry.published;
     await saveRegistry(`공개 전환 반영: ${entry.title}`);
@@ -116,38 +115,19 @@ async function togglePublished(slug) {
 }
 
 // ── 편집기 ──────────────────────────────────────────────────────
-function parseFrontMatter(md) {
-  const m = md.match(/^---\n([\s\S]*?)\n---\n?/);
-  const meta = {};
-  let body = md;
-  if (m) {
-    body = md.slice(m[0].length);
-    for (const line of m[1].split("\n")) {
-      const i = line.indexOf(":");
-      if (i > 0) meta[line.slice(0, i).trim()] = line.slice(i + 1).trim();
-    }
-  }
-  return { meta, body };
-}
-
-function buildMd({ title, date, excerpt, published }, body) {
-  return `---\ntitle: ${title}\ndate: ${date}\nexcerpt: ${excerpt}\npublished: ${published}\n---\n\n${body.trim()}\n`;
-}
-
 async function openEditor(slug) {
   const entry = registry.find((p) => p.slug === slug);
   if (!entry) return;
   const f = await getFile(`${folderOf(entry.published)}/${slug}.txt`);
   if (!f) { $("admin-msg").textContent = "파일을 불러오지 못했습니다."; return; }
-  const { meta, body } = parseFrontMatter(f.text);
   editing = { slug, published: entry.published, sha: f.sha, isNew: false };
-  $("f-title").value = meta.title || entry.title;
+  $("f-title").value = entry.title;
   $("f-slug").value = slug;
   $("f-slug").disabled = true;
-  $("f-date").value = meta.date || entry.date;
-  $("f-excerpt").value = meta.excerpt || entry.excerpt || "";
+  $("f-date").value = entry.date;
+  $("f-excerpt").value = entry.excerpt || "";
   $("f-published").checked = entry.published;
-  $("f-body").value = body.trim();
+  $("f-body").value = f.text.trim();
   $("editor-title").textContent = "글 편집";
   $("delete-post").style.display = "";
   $("editor").hidden = false;
@@ -186,7 +166,7 @@ async function savePost() {
   if (!/^[a-z0-9-]+$/.test(slug)) { msg.textContent = "주소는 영문 소문자, 숫자, - 만 쓸 수 있습니다."; return; }
   msg.textContent = "저장 중…";
   try {
-    const md = buildMd({ title, date, excerpt, published }, body);
+    const md = body.trim() + "\n";
     const newPath = `${folderOf(published)}/${slug}.txt`;
     if (editing.isNew) {
       if (registry.some((p) => p.slug === slug)) throw new Error("이미 있는 주소(slug)입니다.");
