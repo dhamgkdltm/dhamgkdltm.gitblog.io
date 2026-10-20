@@ -59,3 +59,7 @@ figcaption { color: var(--muted); font-size: 14px; margin-top: 8px; }
   body { font-size: 16px; }
   h1 { font-size: 24px; }
 }
+
+/* ── 댓글 ─────────────────────────────────── */
+#comments { margin-top: 56px; border-top: 1px solid var(--border); padding-top: 24px; }
+#comments h2 { font-size: 22px; margin: 0 0 16px; }
