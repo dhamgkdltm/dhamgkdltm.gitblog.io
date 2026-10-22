@@ -18,7 +18,11 @@ async function load() {
     const body = await res.text();
     document.title = `${entry.title} — 다우지의 블로그`;
     titleEl.textContent = entry.title;
-    document.getElementById("post-date").textContent = entry.date || "";
+    const dateEl = document.getElementById("post-date");
+    dateEl.textContent = entry.date ? `게시일 ${entry.date}` : "";
+    if (entry.updated && entry.date && entry.updated !== entry.date) {
+      dateEl.textContent += ` · 수정일 ${entry.updated}`;
+    }
     contentEl.innerHTML = marked.parse(body);
     const editLink = document.getElementById("edit-this-post");
     if (editLink) editLink.href = `${BASE}/admin.html#edit=${slug}`;

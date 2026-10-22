@@ -175,6 +175,7 @@ async function savePost() {
   if (!body.trim()) { msg.textContent = "본문을 입력해 주세요."; return; }
   const slug = editing.isNew ? autoSlug() : editing.slug;
   const date = editing.isNew ? todayKST() : editing.date;
+  const updated = todayKST();
   const excerpt = autoExcerpt(body);
   msg.textContent = "저장 중…";
   try {
@@ -183,7 +184,7 @@ async function savePost() {
     if (editing.isNew) {
       if (registry.some((p) => p.slug === slug)) throw new Error("이미 있는 주소(slug)입니다.");
       await putFile(newPath, md, `새 글: ${title}`, null);
-      registry.push({ slug, title, date, excerpt, published });
+      registry.push({ slug, title, date, updated, excerpt, published });
     } else {
       const oldPath = `${folderOf(editing.published)}/${slug}.txt`;
       if (editing.published !== published) {
@@ -192,7 +193,7 @@ async function savePost() {
       } else {
         await putFile(newPath, md, `글 수정: ${title}`, editing.sha);
       }
-      Object.assign(registry.find((p) => p.slug === slug), { title, date, excerpt, published });
+      Object.assign(registry.find((p) => p.slug === slug), { title, date, updated, excerpt, published });
     }
     await saveRegistry(`글 저장 반영: ${title}`);
     msg.textContent = "저장 완료. 1분쯤 뒤 사이트에 반영됩니다.";
