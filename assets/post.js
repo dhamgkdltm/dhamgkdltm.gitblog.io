@@ -20,6 +20,8 @@ async function load() {
     titleEl.textContent = entry.title;
     document.getElementById("post-date").textContent = entry.date || "";
     contentEl.innerHTML = marked.parse(body);
+    const editLink = document.getElementById("edit-this-post");
+    if (editLink) editLink.href = `${BASE}/admin.html#edit=${slug}`;
     loadGiscus(slug);
   } catch {
     titleEl.textContent = "비공개 글이거나 없는 글입니다";

@@ -99,3 +99,26 @@ figcaption { color: var(--muted); font-size: 14px; margin-top: 8px; }
 }
 .badge.pub { background: #e3f2e3; color: #1c6b1c; }
 .badge.draft { background: #fdeeda; color: #9a6206; }
+
+/* ── 로그인 ─────────────────────────────────── */
+#auth-area { display: inline-flex; align-items: center; gap: 14px; margin-left: 14px; }
+.auth-btn {
+  padding: 6px 14px; border: 1px solid var(--border); background: #fff;
+  border-radius: 999px; font-size: 14px; font-weight: 600; cursor: pointer;
+}
+#auth-modal {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  display: none; align-items: center; justify-content: center; z-index: 100;
+}
+.auth-modal-box {
+  background: #fff; border-radius: 14px; padding: 28px 24px;
+  max-width: 340px; width: calc(100% - 48px); text-align: center;
+}
+.auth-modal-box .device-code {
+  font-size: 32px; font-weight: 800; letter-spacing: 4px;
+  font-family: ui-monospace, monospace; margin: 14px 0;
+}
+.auth-modal-box .auth-open {
+  display: inline-block; padding: 10px 20px; background: #24292f; color: #fff;
+  border-radius: 8px; font-weight: 700; text-decoration: none;
+}

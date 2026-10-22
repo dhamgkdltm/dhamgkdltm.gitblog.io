@@ -9,6 +9,7 @@ const $ = (id) => document.getElementById(id);
 let registry = [];       // posts.json 내용
 let registrySha = null;
 let editing = null;      // { slug, published, sha, isNew }
+let refreshRetried = false;
 
 const token = () => localStorage.getItem(TOKEN_KEY) || "";
 
@@ -230,7 +231,14 @@ async function init() {
     $("token-gate").hidden = true;
     $("admin-main").hidden = false;
     await loadRegistry();
-  } catch {
+    const m = location.hash.match(/#edit=(.+)/);
+    if (m) openEditor(decodeURIComponent(m[1]));
+  } catch (e) {
+    if (!refreshRetried && window.refreshAuthToken && await window.refreshAuthToken()) {
+      refreshRetried = true;
+      return init();
+    }
+    
     $("token-gate").hidden = false;
     $("admin-main").hidden = true;
     $("token-msg").textContent = "토큰이 올바르지 않거나 권한이 없습니다.";
