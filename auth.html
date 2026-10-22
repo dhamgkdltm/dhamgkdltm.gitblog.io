@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>로그인 중 — 다우지의 블로그</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="/dhamgkdltm.gitblog.io/style.css">
+<link rel="icon" type="image/svg+xml" href="/dhamgkdltm.gitblog.io/assets/icon.svg">
+</head>
+<body>
+<main class="wrap">
+  <h1>로그인 중…</h1>
+  <p id="auth-status">GitHub 인증을 확인하고 있습니다.</p>
+</main>
+<script>
+const AUTH_WORKER_URL = ""; // 토큰 교환 중계 서버 주소 — 워커 배포 후 입력
+const SITE_BASE = "/dhamgkdltm.gitblog.io";
+
+async function finish() {
+  const status = document.getElementById("auth-status");
+  const params = new URLSearchParams(location.search);
+  const code = params.get("code");
+  const state = params.get("state");
+  const savedState = sessionStorage.getItem("auth-state");
+  const returnTo = sessionStorage.getItem("auth-return") || SITE_BASE + "/";
+  sessionStorage.removeItem("auth-state");
+  sessionStorage.removeItem("auth-return");
+
+  if (!code || !state || state !== savedState) {
+    status.textContent = "인증이 취소됐거나 올바르지 않습니다. 블로그로 돌아가 다시 시도해 주세요.";
+    return;
+  }
+  try {
+    const res = await fetch(AUTH_WORKER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code }),
+    });
+    const tok = await res.json();
+    if (!tok.access_token) throw new Error("no token");
+    localStorage.setItem("blog-admin-token", tok.access_token);
+    if (tok.refresh_token) localStorage.setItem("blog-admin-refresh", tok.refresh_token);
+    if (tok.expires_in) {
+      localStorage.setItem("blog-admin-expires", String(Date.now() + tok.expires_in * 1000));
+    }
+    status.textContent = "로그인 완료! 이동합니다…";
+    location.replace(returnTo);
+  } catch {
+    status.textContent = "로그인 처리에 실패했습니다. 블로그로 돌아가 다시 시도해 주세요.";
+  }
+}
+finish();
+</script>
+</body>
+</html>
