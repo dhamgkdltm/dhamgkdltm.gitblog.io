@@ -1,7 +1,7 @@
 // GitHub 로그인 (OAuth 리디렉션 방식) — GitHub App 사용.
 // 코드→토큰 교환은 client secret이 필요해서 작은 중계 서버(Cloudflare Worker)가 대신한다.
 const GITHUB_CLIENT_ID = "Iv23lidWoOHT3HKphVRv"; // GitHub App의 Client ID (공개 정보)
-const AUTH_WORKER_URL = ""; // 토큰 교환 중계 서버 주소 — 워커 배포 후 입력
+const AUTH_WORKER_URL = "https://blog-auth.dhamgkdltm.workers.dev";
 const TOKEN_KEY = "blog-admin-token";
 const REFRESH_KEY = "blog-admin-refresh";
 const EXPIRES_KEY = "blog-admin-expires";
