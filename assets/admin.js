@@ -121,12 +121,8 @@ async function openEditor(slug) {
   if (!entry) return;
   const f = await getFile(`${folderOf(entry.published)}/${slug}.txt`);
   if (!f) { $("admin-msg").textContent = "파일을 불러오지 못했습니다."; return; }
-  editing = { slug, published: entry.published, sha: f.sha, isNew: false };
+  editing = { slug, published: entry.published, sha: f.sha, isNew: false, date: entry.date };
   $("f-title").value = entry.title;
-  $("f-slug").value = slug;
-  $("f-slug").disabled = true;
-  $("f-date").value = entry.date;
-  $("f-excerpt").value = entry.excerpt || "";
   $("f-published").checked = entry.published;
   $("f-body").value = f.text.trim();
   $("editor-title").textContent = "글 편집";
@@ -135,18 +131,33 @@ async function openEditor(slug) {
   $("editor").scrollIntoView({ behavior: "smooth" });
 }
 
+function nowKST() {
+  return new Date(Date.now() + 9 * 3600 * 1000);
+}
+function todayKST() {
+  return nowKST().toISOString().slice(0, 10);
+}
+function autoSlug() {
+  const d = nowKST();
+  const base = "post-" + d.toISOString().slice(0, 10).replace(/-/g, "") +
+    "-" + String(d.getUTCHours()).padStart(2, "0") + String(d.getUTCMinutes()).padStart(2, "0") +
+    String(d.getUTCSeconds()).padStart(2, "0");
+  let slug = base, n = 2;
+  while (registry.some((p) => p.slug === slug)) slug = `${base}-${n++}`;
+  return slug;
+}
+function autoExcerpt(body) {
+  const text = body
+    .replace(/<[^>]*>/g, " ")
+    .replace(/[#>*`_~[\]()!|-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return text.length > 90 ? text.slice(0, 90) + "…" : text;
+}
+
 function openNew() {
-  const now = new Date();
-  const kst = new Date(now.getTime() + 9 * 3600 * 1000);
-  const date = kst.toISOString().slice(0, 10);
-  const slug = "post-" + kst.toISOString().slice(0, 10).replace(/-/g, "") +
-    "-" + String(kst.getHours()).padStart(2, "0") + String(kst.getMinutes()).padStart(2, "0");
-  editing = { slug, published: false, sha: null, isNew: true };
+  editing = { slug: null, published: false, sha: null, isNew: true, date: null };
   $("f-title").value = "";
-  $("f-slug").value = slug;
-  $("f-slug").disabled = false;
-  $("f-date").value = date;
-  $("f-excerpt").value = "";
   $("f-published").checked = false;
   $("f-body").value = "";
   $("editor-title").textContent = "새 글 쓰기";
@@ -158,13 +169,13 @@ function openNew() {
 async function savePost() {
   const msg = $("editor-msg");
   const title = $("f-title").value.trim();
-  const slug = $("f-slug").value.trim();
-  const date = $("f-date").value;
-  const excerpt = $("f-excerpt").value.trim();
   const published = $("f-published").checked;
   const body = $("f-body").value;
-  if (!title || !slug || !date) { msg.textContent = "제목, 주소(slug), 날짜는 필수입니다."; return; }
-  if (!/^[a-z0-9-]+$/.test(slug)) { msg.textContent = "주소는 영문 소문자, 숫자, - 만 쓸 수 있습니다."; return; }
+  if (!title) { msg.textContent = "제목을 입력해 주세요."; return; }
+  if (!body.trim()) { msg.textContent = "본문을 입력해 주세요."; return; }
+  const slug = editing.isNew ? autoSlug() : editing.slug;
+  const date = editing.isNew ? todayKST() : editing.date;
+  const excerpt = autoExcerpt(body);
   msg.textContent = "저장 중…";
   try {
     const md = body.trim() + "\n";
@@ -250,10 +261,6 @@ $("token-save").addEventListener("click", () => {
   if (!v) return;
   localStorage.setItem(TOKEN_KEY, v);
   init();
-});
-$("token-clear").addEventListener("click", () => {
-  localStorage.removeItem(TOKEN_KEY);
-  location.reload();
 });
 $("new-post").addEventListener("click", openNew);
 $("save-post").addEventListener("click", savePost);

@@ -32,7 +32,6 @@
   <div id="admin-main" hidden>
     <div class="admin-toolbar">
       <button id="new-post" type="button">+ 새 글 쓰기</button>
-      <button id="token-clear" type="button" class="link-btn">토큰 삭제</button>
     </div>
     <p id="admin-msg" class="form-msg"></p>
 
@@ -42,9 +41,6 @@
     <div id="editor" class="admin-box" hidden>
       <h2 id="editor-title">글 편집</h2>
       <label>제목 <input type="text" id="f-title"></label>
-      <label>주소(slug) <input type="text" id="f-slug" placeholder="영문 소문자, 숫자, - 만 사용"></label>
-      <label>날짜 <input type="date" id="f-date"></label>
-      <label>요약 <input type="text" id="f-excerpt"></label>
       <label class="check"><input type="checkbox" id="f-published"> 공개</label>
       <label>본문 (마크다운)
         <textarea id="f-body" rows="14"></textarea>
