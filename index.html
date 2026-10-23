@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>다우지의 블로그</title>
+<script>try{var t=localStorage.getItem("blog-theme");if(!t)t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme="light";}</script>
 <meta name="description" content="다우지의 블로그 — AI와 자동화로 이것저것 만들어보는 기록">
 <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="alternate" type="application/rss+xml" title="다우지의 블로그 RSS" href="/dhamgkdltm.gitblog.io/rss.xml">
@@ -19,13 +20,17 @@
     <a class="site-title" href="/dhamgkdltm.gitblog.io/">다우지의 블로그</a>
     <nav>
       <a href="/dhamgkdltm.gitblog.io/">글 목록</a>
-      <a href="/dhamgkdltm.gitblog.io/about.html">소개</a>
+<button id="theme-toggle" class="theme-toggle" type="button" aria-label="테마 전환"><span class="theme-orb"></span></button>
       <span id="auth-area"></span>
     </nav>
   </div>
   <nav id="site-menu" class="site-menu" aria-label="종류 메뉴"></nav>
 </header>
 <main class="wrap">
+  <section class="intro-box">
+    <p class="intro-main">안녕하세요, 다우지입니다.</p>
+    <p class="intro-sub">게임하고, 무언가 만들고, 자동화하는 걸 좋아해서 그 과정들을 이곳에 기록합니다. 유튜브와 치지직에서 <a href="https://www.youtube.com/@kimdauzy" target="_blank" rel="noopener">다우지 갬 월드</a>로 방송도 하고 있어요.</p>
+  </section>
   <h1 id="list-heading">최근 글</h1>
   <form id="search-form" class="search-box" action="/dhamgkdltm.gitblog.io/" method="get">
     <input type="search" name="q" id="search-input" placeholder="제목, 내용, 태그로 검색" aria-label="검색">
@@ -42,6 +47,7 @@
 <script type="module" src="/dhamgkdltm.gitblog.io/assets/site.js"></script>
 <script src="/dhamgkdltm.gitblog.io/assets/counter.js"></script>
 <script src="/dhamgkdltm.gitblog.io/assets/auth.js"></script>
+<script src="/dhamgkdltm.gitblog.io/assets/theme.js"></script>
 <script src="/dhamgkdltm.gitblog.io/assets/menu.js"></script>
 </body>
 </html>

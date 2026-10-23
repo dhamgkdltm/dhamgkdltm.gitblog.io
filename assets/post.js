@@ -87,7 +87,7 @@ function loadGiscus(term) {
     "data-reactions-enabled": "1",
     "data-emit-metadata": "0",
     "data-input-position": "bottom",
-    "data-theme": "light",
+    "data-theme": document.documentElement.dataset.theme === "dark" ? "dark" : "light",
     "data-lang": "ko",
   };
   for (const [k, v] of Object.entries(attrs)) s.setAttribute(k, v);

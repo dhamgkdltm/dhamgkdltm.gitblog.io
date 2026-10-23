@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>다우지의 블로그</title>
+<script>try{var t=localStorage.getItem("blog-theme");if(!t)t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme="light";}</script>
 <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="alternate" type="application/rss+xml" title="다우지의 블로그 RSS" href="/dhamgkdltm.gitblog.io/rss.xml">
 <link rel="stylesheet" href="/dhamgkdltm.gitblog.io/style.css">
@@ -18,7 +19,7 @@
     <a class="site-title" href="/dhamgkdltm.gitblog.io/">다우지의 블로그</a>
     <nav>
       <a href="/dhamgkdltm.gitblog.io/">글 목록</a>
-      <a href="/dhamgkdltm.gitblog.io/about.html">소개</a>
+<button id="theme-toggle" class="theme-toggle" type="button" aria-label="테마 전환"><span class="theme-orb"></span></button>
       <span id="auth-area"></span>
     </nav>
   </div>
@@ -48,6 +49,7 @@
 <script type="module" src="/dhamgkdltm.gitblog.io/assets/post.js"></script>
 <script src="/dhamgkdltm.gitblog.io/assets/counter.js"></script>
 <script src="/dhamgkdltm.gitblog.io/assets/auth.js"></script>
+<script src="/dhamgkdltm.gitblog.io/assets/theme.js"></script>
 <script src="/dhamgkdltm.gitblog.io/assets/menu.js"></script>
 </body>
 </html>

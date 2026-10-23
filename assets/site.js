@@ -79,6 +79,10 @@ async function main() {
     return;
   }
 
+  if (catParam || tagParam || qParam) {
+    const intro = document.querySelector(".intro-box");
+    if (intro) intro.remove();
+  }
   if (catParam) {
     heading.textContent = catParam;
     const list = posts.filter((p) => (p.category || "기타") === catParam);

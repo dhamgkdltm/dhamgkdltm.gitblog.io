@@ -142,7 +142,6 @@ function buildRss() {
 function buildSitemap() {
   const urls = [
     `${SITE_URL}/`,
-    `${SITE_URL}/about.html`,
     ...[...registry].filter((p) => p.published).map((p) => `${SITE_URL}/post.html?p=${p.slug}`),
   ];
   return `<?xml version="1.0" encoding="UTF-8"?>
