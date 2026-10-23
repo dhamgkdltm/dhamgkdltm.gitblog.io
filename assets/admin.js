@@ -110,12 +110,16 @@ function renderList() {
   const sorted = [...registry].sort((a, b) => (a.date < b.date ? 1 : -1));
   ul.innerHTML = sorted.map((p) => `
     <li>
-      <span class="badge ${p.published ? "pub" : "draft"}">${p.published ? "공개" : "비공개"}</span>
-      <span class="admin-post-cat">${escapeHtml(p.category || "기타")}</span>
-      <span class="admin-post-title">${escapeHtml(p.title)}</span>
-      <span class="date">${escapeHtml(p.date)}</span>
-      <button type="button" data-edit="${escapeHtml(p.slug)}">수정</button>
-      <button type="button" data-toggle="${escapeHtml(p.slug)}">${p.published ? "비공개로" : "공개로"}</button>
+      <div class="admin-item-main">
+        <span class="badge ${p.published ? "pub" : "draft"}">${p.published ? "공개" : "비공개"}</span>
+        <span class="admin-post-cat">${escapeHtml(p.category || "기타")}</span>
+        <span class="admin-post-title">${escapeHtml(p.title)}</span>
+        <span class="date">${escapeHtml(p.date)}</span>
+      </div>
+      <div class="admin-item-actions">
+        <button type="button" data-edit="${escapeHtml(p.slug)}">수정</button>
+        <button type="button" data-toggle="${escapeHtml(p.slug)}">${p.published ? "비공개로" : "공개로"}</button>
+      </div>
     </li>`).join("") || `<li>글이 없습니다.</li>`;
   ul.querySelectorAll("[data-edit]").forEach((b) =>
     b.addEventListener("click", () => openEditor(b.dataset.edit)));
