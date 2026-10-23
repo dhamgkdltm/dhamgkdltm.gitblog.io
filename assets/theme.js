@@ -96,14 +96,18 @@
       return 1 + (c + 1) * Math.pow(k - 1, 3) + c * Math.pow(k - 1, 2);
     }
 
-    // whipEl: 휙 돌릴 천체 (있으면 한 바퀴 회전하며 빠르게 전환)
-    function tweenTo(target, whipEl) {
+    function easeInOutCubic(k) {
+      return k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+    }
+
+    // whipEl: 휙 돌릴 천체. slow: 클릭 전환 (노을을 천천히 지나간다)
+    function tweenTo(target, whipEl, slow) {
       cancelAnimationFrame(raf);
       const from = p;
       const start = performance.now();
       const whip = !!whipEl && Math.round(from) !== target;
-      const dur = whip ? 680 : 820;
-      const ease = whip ? easeOutQuint : easeOutBack;
+      const dur = slow ? 1600 : whip ? 680 : 820;
+      const ease = slow ? easeInOutCubic : whip ? easeOutQuint : easeOutBack;
       if (whip) {
         whipEl.classList.add("whip");
         setTimeout(() => whipEl.classList.remove("whip"), 500);
@@ -143,7 +147,7 @@
       const d = drag;
       drag = null;
       if (!d.moved) {
-        tweenTo(p > 0.5 ? 0 : 1, d.el); // 탭: 반대로 전환
+        tweenTo(p > 0.5 ? 0 : 1, d.el, true); // 탭: 천천히 반대로 전환
       } else {
         tweenTo(p > 0.5 ? 1 : 0, d.el); // 절반 넘으면 휙 완성, 아니면 복귀
       }
