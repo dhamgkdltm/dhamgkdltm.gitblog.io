@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>다우지의 블로그</title>
 <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="alternate" type="application/rss+xml" title="다우지의 블로그 RSS" href="/dhamgkdltm.gitblog.io/rss.xml">
 <link rel="stylesheet" href="/dhamgkdltm.gitblog.io/style.css">
 <link rel="manifest" href="/dhamgkdltm.gitblog.io/manifest.webmanifest">
 <meta name="theme-color" content="#0066ff">
@@ -21,12 +22,19 @@
       <span id="auth-area"></span>
     </nav>
   </div>
+  <nav id="site-menu" class="site-menu" aria-label="종류 메뉴"></nav>
 </header>
 <main class="wrap">
   <article class="post-body">
     <h1 id="post-title">글을 불러오는 중…</h1>
     <p class="post-meta"><span id="post-date"></span> · <span id="busuanzi_container_page_pv" style="display:none">조회 <span id="busuanzi_value_page_pv"></span></span></p>
     <div id="post-content"></div>
+    <p id="post-tags" class="post-tags"></p>
+    <div class="share-box">
+      <button type="button" id="share-btn">공유하기</button>
+      <button type="button" id="copy-link-btn">링크 복사</button>
+      <span id="share-msg" class="form-msg"></span>
+    </div>
     <p><a id="edit-this-post" href="#" style="display:none">이 글 수정</a></p>
   </article>
   <section id="comments"><h2>댓글</h2><div class="giscus"></div></section>
@@ -40,5 +48,6 @@
 <script type="module" src="/dhamgkdltm.gitblog.io/assets/post.js"></script>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <script src="/dhamgkdltm.gitblog.io/assets/auth.js"></script>
+<script src="/dhamgkdltm.gitblog.io/assets/menu.js"></script>
 </body>
 </html>

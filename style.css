@@ -203,3 +203,48 @@ main h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.02em; margin: 0 
   .post-body h1 { font-size: 24px; }
   main h1 { font-size: 23px; }
 }
+
+/* ── 종류 메뉴 / 검색 / 태그 / 공유 ───────────── */
+.site-menu {
+  max-width: 740px; margin: 0 auto; padding: 0 20px 12px;
+  display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none;
+}
+.site-menu::-webkit-scrollbar { display: none; }
+.site-menu a {
+  white-space: nowrap; font-size: 14.5px; font-weight: 600; color: var(--muted);
+  padding: 6px 12px; border-radius: 999px;
+}
+.site-menu a:hover { text-decoration: none; color: var(--accent); background: var(--accent-soft); }
+.site-menu a.active { color: var(--accent); background: var(--accent-soft); }
+.search-box { display: flex; gap: 8px; margin: 16px 0 4px; }
+.search-box input {
+  flex: 1; min-width: 0; padding: 11px 14px; font-size: 16px; font-family: inherit;
+  border: 1px solid var(--border); border-radius: 10px;
+}
+.search-box input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.search-box button {
+  padding: 11px 18px; background: var(--accent); color: #fff; border: none;
+  border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit;
+  white-space: nowrap;
+}
+.tag-chip {
+  display: inline-block; font-size: 13px; font-weight: 600; color: var(--muted);
+  background: var(--soft); border: 1px solid var(--border); border-radius: 999px;
+  padding: 2px 9px; margin: 0 4px 4px 0; white-space: nowrap;
+}
+.tag-chip:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
+.post-tags { margin: 10px 0 0; }
+.post-body .post-tags, #post-tags { margin: 18px 0 0; }
+.search-snippet { color: var(--muted); }
+.share-box { display: flex; align-items: center; gap: 8px; margin: 28px 0 8px; flex-wrap: wrap; }
+.share-box button {
+  padding: 9px 16px; border: 1px solid var(--border); background: #fff;
+  border-radius: 999px; font-size: 14.5px; font-weight: 600; cursor: pointer; font-family: inherit;
+}
+.share-box button:hover { border-color: var(--accent); color: var(--accent); }
+.image-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+.image-btn {
+  display: inline-block; padding: 9px 16px; border: 1px solid var(--border);
+  border-radius: 10px; font-size: 14.5px; font-weight: 600; cursor: pointer; margin: 0 !important;
+}
+.image-btn:hover { border-color: var(--accent); color: var(--accent); }

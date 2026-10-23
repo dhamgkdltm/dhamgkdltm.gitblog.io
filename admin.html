@@ -6,6 +6,7 @@
 <title>블로그 관리 — 다우지의 블로그</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="alternate" type="application/rss+xml" title="다우지의 블로그 RSS" href="/dhamgkdltm.gitblog.io/rss.xml">
 <link rel="stylesheet" href="/dhamgkdltm.gitblog.io/style.css">
 <link rel="icon" type="image/svg+xml" href="/dhamgkdltm.gitblog.io/assets/icon.svg">
 </head>
@@ -19,6 +20,7 @@
       <span id="auth-area"></span>
     </nav>
   </div>
+  <nav id="site-menu" class="site-menu" aria-label="종류 메뉴"></nav>
 </header>
 <main class="wrap">
   <h1>블로그 관리</h1>
@@ -45,7 +47,16 @@
       <label>종류 <input type="text" id="f-category" list="category-list" placeholder="예: 가이드, 일상, 리뷰">
         <datalist id="category-list"></datalist>
       </label>
+      <label>태그 <input type="text" id="f-tags" list="tag-list" placeholder="쉼표로 구분 (예: 뮤즈, 가입, 팁)">
+        <datalist id="tag-list"></datalist>
+      </label>
       <label class="check"><input type="checkbox" id="f-published"> 공개</label>
+      <div class="image-row">
+        <label class="image-btn">사진 넣기
+          <input type="file" id="f-image" accept="image/*" hidden>
+        </label>
+        <span id="image-msg" class="form-msg"></span>
+      </div>
       <label>본문 (마크다운)
         <textarea id="f-body" rows="14"></textarea>
       </label>
@@ -65,5 +76,6 @@
 </footer>
 <script type="module" src="/dhamgkdltm.gitblog.io/assets/admin.js"></script>
 <script src="/dhamgkdltm.gitblog.io/assets/auth.js"></script>
+<script src="/dhamgkdltm.gitblog.io/assets/menu.js"></script>
 </body>
 </html>

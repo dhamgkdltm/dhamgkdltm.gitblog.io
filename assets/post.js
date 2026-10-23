@@ -27,12 +27,48 @@ async function load() {
     contentEl.innerHTML = marked.parse(body);
     const editLink = document.getElementById("edit-this-post");
     if (editLink) editLink.href = `${BASE}/admin.html#edit=${slug}`;
+    const tagsEl = document.getElementById("post-tags");
+    if (tagsEl && (entry.tags || []).length) {
+      tagsEl.innerHTML = entry.tags.map((t) =>
+        `<a class="tag-chip" href="${BASE}/?tag=${encodeURIComponent(t)}">#${escapeHtml(t)}</a>`).join(" ");
+    }
+    wireShare(entry.title);
     loadGiscus(slug);
   } catch {
     titleEl.textContent = "비공개 글이거나 없는 글입니다";
     contentEl.innerHTML = "";
     document.getElementById("comments").style.display = "none";
+    const sb = document.querySelector(".share-box");
+    if (sb) sb.style.display = "none";
   }
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (ch) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+  }[ch]));
+}
+
+function wireShare(title) {
+  const msg = document.getElementById("share-msg");
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(location.href);
+      if (msg) msg.textContent = "링크가 복사됐어요.";
+    } catch {
+      if (msg) msg.textContent = "복사에 실패했어요. 주소창의 링크를 복사해 주세요.";
+    }
+  };
+  const shareBtn = document.getElementById("share-btn");
+  if (shareBtn) shareBtn.addEventListener("click", async () => {
+    if (navigator.share) {
+      try { await navigator.share({ title, url: location.href }); } catch { /* 취소 무시 */ }
+    } else {
+      copy();
+    }
+  });
+  const copyBtn = document.getElementById("copy-link-btn");
+  if (copyBtn) copyBtn.addEventListener("click", copy);
 }
 
 function loadGiscus(term) {

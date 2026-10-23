@@ -4,6 +4,8 @@ const OWNER = "dhamgkdltm";
 const REPO = "dhamgkdltm.gitblog.io";
 const API = `https://api.github.com/repos/${OWNER}/${REPO}/contents`;
 const TOKEN_KEY = "blog-admin-token";
+const SITE_URL = "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io";
+let rssSha = null, sitemapSha = null;
 
 const $ = (id) => document.getElementById(id);
 let registry = [];       // posts.json 내용
@@ -62,6 +64,10 @@ async function loadRegistry() {
   const f = await getFile("posts.json");
   registry = f ? JSON.parse(f.text) : [];
   registrySha = f ? f.sha : null;
+  const rf = await getFile("rss.xml");
+  rssSha = rf ? rf.sha : null;
+  const sf = await getFile("sitemap.xml");
+  sitemapSha = sf ? sf.sha : null;
   renderList();
   reconcileLocations();
 }
@@ -98,6 +104,52 @@ async function saveRegistry(message) {
   const res = await putFile("posts.json", JSON.stringify(sorted, null, 2) + "\n", message, registrySha);
   registrySha = res.content.sha;
   registry = sorted;
+  try {
+    const r = await putFile("rss.xml", buildRss(), message + " (RSS 갱신)", rssSha);
+    rssSha = r.content.sha;
+    const sm = await putFile("sitemap.xml", buildSitemap(), message + " (사이트맵 갱신)", sitemapSha);
+    sitemapSha = sm.content.sha;
+  } catch { /* 피드 갱신 실패는 본 저장을 막지 않음 */ }
+}
+
+function xmlEscape(t) {
+  return String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+function buildRss() {
+  const items = [...registry]
+    .filter((p) => p.published)
+    .sort((a, b) => (a.date < b.date ? 1 : -1))
+    .map((p) => `
+    <item>
+      <title>${xmlEscape(p.title)}</title>
+      <link>${SITE_URL}/post.html?p=${p.slug}</link>
+      <guid isPermaLink="true">${SITE_URL}/post.html?p=${p.slug}</guid>
+      <pubDate>${new Date(p.date + "T09:00:00+09:00").toUTCString()}</pubDate>
+      <description>${xmlEscape(p.excerpt || "")}</description>
+    </item>`).join("");
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>다우지의 블로그</title>
+    <link>${SITE_URL}/</link>
+    <description>다우지의 블로그 새 글 소식</description>${items}
+  </channel>
+</rss>
+`;
+}
+
+function buildSitemap() {
+  const urls = [
+    `${SITE_URL}/`,
+    `${SITE_URL}/about.html`,
+    ...[...registry].filter((p) => p.published).map((p) => `${SITE_URL}/post.html?p=${p.slug}`),
+  ];
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.map((u) => `  <url><loc>${xmlEscape(u)}</loc></url>`).join("\n")}
+</urlset>
+`;
 }
 
 function folderOf(published) {
@@ -157,6 +209,13 @@ function fillCategoryList() {
   dl.innerHTML = cats.map((c) => `<option value="${escapeHtml(c)}">`).join("");
 }
 
+function fillTagList() {
+  const dl = $("tag-list");
+  if (!dl) return;
+  const tags = [...new Set(registry.flatMap((p) => p.tags || []))];
+  dl.innerHTML = tags.map((t) => `<option value="${escapeHtml(t)}">`).join("");
+}
+
 async function openEditor(slug) {
   const entry = registry.find((p) => p.slug === slug);
   if (!entry) return;
@@ -164,10 +223,13 @@ async function openEditor(slug) {
   if (!loc) { $("admin-msg").textContent = "파일을 불러오지 못했습니다."; return; }
   editing = { slug, published: loc.published, sha: loc.file.sha, isNew: false, date: entry.date };
   fillCategoryList();
+  fillTagList();
   $("f-title").value = entry.title;
   $("f-category").value = entry.category || "기타";
+  $("f-tags").value = (entry.tags || []).join(", ");
   $("f-published").checked = loc.published;
   $("f-body").value = loc.file.text.trim();
+  restoreDraft();
   $("editor-title").textContent = "글 편집";
   $("delete-post").style.display = "";
   $("editor").hidden = false;
@@ -201,10 +263,13 @@ function autoExcerpt(body) {
 function openNew() {
   editing = { slug: null, published: false, sha: null, isNew: true, date: null };
   fillCategoryList();
+  fillTagList();
   $("f-title").value = "";
   $("f-category").value = "";
+  $("f-tags").value = "";
   $("f-published").checked = false;
   $("f-body").value = "";
+  restoreDraft();
   $("editor-title").textContent = "새 글 쓰기";
   $("delete-post").style.display = "none";
   $("editor").hidden = false;
@@ -215,6 +280,7 @@ async function savePost() {
   const msg = $("editor-msg");
   const title = $("f-title").value.trim();
   const category = $("f-category").value.trim() || "기타";
+  const tags = [...new Set($("f-tags").value.split(",").map((t) => t.trim()).filter(Boolean))];
   const published = $("f-published").checked;
   const body = $("f-body").value;
   if (!title) { msg.textContent = "제목을 입력해 주세요."; return; }
@@ -230,7 +296,7 @@ async function savePost() {
     if (editing.isNew) {
       if (registry.some((p) => p.slug === slug)) throw new Error("이미 있는 주소(slug)입니다.");
       await step("글 파일 저장", () => putFile(newPath, md, `새 글: ${title}`, null));
-      registry.push({ slug, title, date, updated, excerpt, published, category });
+      registry.push({ slug, title, date, updated, excerpt, published, category, tags });
     } else {
       const loc = await step("현재 파일 확인", () => locatePost(slug));
       if (!loc) throw new Error("기존 파일을 찾지 못했습니다.");
@@ -241,9 +307,10 @@ async function savePost() {
       } else {
         await step("글 파일 저장", () => putFile(newPath, md, `글 수정: ${title}`, loc.file.sha));
       }
-      Object.assign(registry.find((p) => p.slug === slug), { title, date, updated, excerpt, published, category });
+      Object.assign(registry.find((p) => p.slug === slug), { title, date, updated, excerpt, published, category, tags });
     }
     await step("목록 저장", () => saveRegistry(`글 저장 반영: ${title}`));
+    clearDraft();
     msg.textContent = "저장 완료. 1분쯤 뒤 사이트에 반영됩니다.";
     editing = null;
     $("editor").hidden = true;
@@ -265,6 +332,7 @@ async function deletePost() {
     }
     registry = registry.filter((p) => p.slug !== editing.slug);
     await saveRegistry(`글 삭제 반영: ${editing.slug}`);
+    clearDraft();
     editing = null;
     $("editor").hidden = true;
     $("admin-msg").textContent = "삭제 완료.";
@@ -314,6 +382,114 @@ function escapeHtml(s) {
   }[ch]));
 }
 
+
+// ── 임시저장 (이 기기에 자동 백업) ──────────────────────
+const DRAFT_PREFIX = "blog-draft:";
+let draftTimer = null;
+function draftKey() {
+  return DRAFT_PREFIX + (editing ? (editing.isNew ? "new" : editing.slug) : "new");
+}
+function saveDraft() {
+  if (!editing) return;
+  const data = {
+    title: $("f-title").value,
+    category: $("f-category").value,
+    tags: $("f-tags").value,
+    published: $("f-published").checked,
+    body: $("f-body").value,
+    savedAt: Date.now(),
+  };
+  try { localStorage.setItem(draftKey(), JSON.stringify(data)); } catch { /* 용량 초과 등 무시 */ }
+}
+function scheduleDraftSave() {
+  clearTimeout(draftTimer);
+  draftTimer = setTimeout(saveDraft, 600);
+}
+function restoreDraft() {
+  let raw = null;
+  try { raw = localStorage.getItem(draftKey()); } catch { /* 무시 */ }
+  if (!raw) return;
+  try {
+    const d = JSON.parse(raw);
+    if (!d.body && !d.title) return;
+    $("f-title").value = d.title || "";
+    $("f-category").value = d.category || "";
+    $("f-tags").value = d.tags || "";
+    $("f-published").checked = !!d.published;
+    $("f-body").value = d.body || "";
+    $("editor-msg").textContent = "임시저장된 내용을 불러왔어요.";
+  } catch { /* 손상된 임시저장은 무시 */ }
+}
+function clearDraft() {
+  try { localStorage.removeItem(draftKey()); } catch { /* 무시 */ }
+}
+
+// ── 사진 넣기 (자동 축소 후 GitHub에 업로드) ────────────
+async function putBinary(path, base64Content, message) {
+  return gh(path, {
+    method: "PUT",
+    body: JSON.stringify({ message, content: base64Content, branch: "main" }),
+  });
+}
+
+function resizeImage(file, maxSize, quality) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      URL.revokeObjectURL(img.src);
+      let width = img.naturalWidth, height = img.naturalHeight;
+      if (width > maxSize || height > maxSize) {
+        const r = Math.min(maxSize / width, maxSize / height);
+        width = Math.round(width * r);
+        height = Math.round(height * r);
+      }
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+      canvas.toBlob(
+        (b) => (b ? resolve(b) : reject(new Error("이미지 변환에 실패했습니다."))),
+        "image/jpeg", quality);
+    };
+    img.onerror = () => reject(new Error("이미지를 읽지 못했습니다."));
+    img.src = URL.createObjectURL(file);
+  });
+}
+
+function blobToBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result).split(",")[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+}
+
+async function handleImageUpload(ev) {
+  const file = ev.target.files[0];
+  ev.target.value = "";
+  if (!file) return;
+  const msg = $("image-msg");
+  msg.textContent = "사진 올리는 중…";
+  try {
+    let blob = await resizeImage(file, 1600, 0.85);
+    if (blob.size > 950 * 1024) blob = await resizeImage(file, 1200, 0.7);
+    const b64 = await blobToBase64(blob);
+    const name = `images/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.jpg`;
+    await putBinary(name, b64, `사진 업로드: ${file.name}`);
+    const ta = $("f-body");
+    const insert = `\n![사진](${SITE_URL}/${name})\n`;
+    const pos = ta.selectionStart ?? ta.value.length;
+    ta.value = ta.value.slice(0, pos) + insert + ta.value.slice(pos);
+    ta.focus();
+    ta.selectionStart = ta.selectionEnd = pos + insert.length;
+    scheduleDraftSave();
+    msg.textContent = "사진이 본문에 들어갔어요.";
+  } catch (e) {
+    msg.textContent = "사진 실패: " + e.message;
+  }
+}
+
 // ── 시작/토큰 ───────────────────────────────────────────────────
 async function init() {
   if (!token()) {
@@ -347,6 +523,14 @@ $("token-save").addEventListener("click", () => {
   localStorage.setItem(TOKEN_KEY, v);
   init();
 });
+["f-title", "f-category", "f-tags", "f-published", "f-body"].forEach((id) => {
+  const el = $(id);
+  if (el) {
+    el.addEventListener("input", scheduleDraftSave);
+    el.addEventListener("change", scheduleDraftSave);
+  }
+});
+$("f-image").addEventListener("change", handleImageUpload);
 $("new-post").addEventListener("click", openNew);
 $("save-post").addEventListener("click", savePost);
 $("delete-post").addEventListener("click", deletePost);
