@@ -253,6 +253,9 @@ function autoSlug() {
 }
 function autoExcerpt(body) {
   const text = body
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+    .replace(/https?:\/\/\S+/g, " ")
     .replace(/<[^>]*>/g, " ")
     .replace(/[#>*`_~[\]()!|-]/g, " ")
     .replace(/\s+/g, " ")

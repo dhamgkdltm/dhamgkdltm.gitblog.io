@@ -108,7 +108,11 @@ async function main() {
       if (!inMeta) {
         try {
           const body = await (await fetch(`${BASE}/posts/${p.slug}.txt`, { cache: "no-store" })).text();
-          const plain = body.replace(/<[^>]*>/g, " ").replace(/[#>*`_~[\]()!|-]/g, " ").replace(/\s+/g, " ");
+          const plain = body
+            .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
+            .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+            .replace(/https?:\/\/\S+/g, " ")
+            .replace(/<[^>]*>/g, " ").replace(/[#>*`_~[\]()!|-]/g, " ").replace(/\s+/g, " ");
           const idx = plain.toLowerCase().indexOf(q);
           if (idx >= 0) {
             const start = Math.max(0, idx - 40);
