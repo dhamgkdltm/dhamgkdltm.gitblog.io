@@ -109,8 +109,15 @@
       const dur = slow ? 1600 : whip ? 680 : 820;
       const ease = slow ? easeInOutCubic : whip ? easeOutQuint : easeOutBack;
       if (whip) {
+        // 도는 속도도 이동 속도와 맞춘다 (클릭 전환이면 1.6초에 걸쳐 한 바퀴)
+        const svg = whipEl.querySelector("svg");
+        const spinMs = slow ? 1600 : 500;
+        if (svg) svg.style.transitionDuration = spinMs + "ms";
         whipEl.classList.add("whip");
-        setTimeout(() => whipEl.classList.remove("whip"), 500);
+        setTimeout(() => {
+          whipEl.classList.remove("whip");
+          if (svg) svg.style.transitionDuration = "";
+        }, spinMs + 50);
       }
       function step(now) {
         const k = Math.min(1, (now - start) / dur);
