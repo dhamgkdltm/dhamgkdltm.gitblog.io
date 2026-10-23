@@ -291,48 +291,35 @@ main h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.02em; margin: 0 
 .intro-main { font-size: 19px; font-weight: 800; margin: 0 0 6px; letter-spacing: -0.02em; }
 .intro-sub { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.7; }
 
-/* ── 해/달 테마 토글 ──────────────────────────── */
-.theme-toggle {
-  width: 42px; height: 42px; border-radius: 50%; flex: 0 0 auto;
-  border: 1px solid var(--border); background: #dff1fd;
-  position: relative; cursor: pointer; overflow: hidden; padding: 0;
-  transition: background 0.5s ease, border-color 0.3s ease;
+/* ── 하늘 띠: 해/달 궤도 ──────────────────────── */
+.sky-band {
+  position: relative; height: 62px; overflow: hidden;
+  background: linear-gradient(180deg, #d9efff 0%, #f2f9ff 100%);
+  transition: background 0.5s ease;
 }
-.theme-toggle:hover { border-color: var(--accent); }
-.theme-toggle::before, .theme-toggle::after {
-  content: ""; position: absolute; border-radius: 50%; background: #fff;
-  opacity: 0; transition: opacity 0.5s ease;
+[data-theme="dark"] .sky-band { background: linear-gradient(180deg, #090d1c 0%, #16203c 100%); }
+.sky-stars {
+  position: absolute; inset: 0; opacity: 0; transition: opacity 0.7s ease;
+  background-image:
+    radial-gradient(1.6px 1.6px at 8% 34%, #ffffff, transparent),
+    radial-gradient(1.2px 1.2px at 22% 62%, #dfe8ff, transparent),
+    radial-gradient(1.8px 1.8px at 38% 24%, #ffffff, transparent),
+    radial-gradient(1.2px 1.2px at 55% 52%, #ffeec2, transparent),
+    radial-gradient(1.5px 1.5px at 70% 30%, #ffffff, transparent),
+    radial-gradient(1.2px 1.2px at 84% 58%, #dfe8ff, transparent),
+    radial-gradient(1.6px 1.6px at 94% 26%, #ffffff, transparent);
 }
-.theme-toggle::before { width: 3px; height: 3px; top: 8px; left: 9px; box-shadow: 14px 5px 0 #fff, 5px 16px 0 #fff; }
-.theme-toggle::after { width: 2px; height: 2px; top: 20px; left: 26px; }
-[data-theme="dark"] .theme-toggle { background: #131a30; }
-[data-theme="dark"] .theme-toggle::before, [data-theme="dark"] .theme-toggle::after { opacity: 0.9; }
-.theme-orb {
-  position: absolute; left: 11px; top: 11px; width: 19px; height: 19px; border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #ffe37e, #ffb52e);
-  box-shadow: 0 0 10px 2px rgba(255, 181, 46, 0.45);
-  transition: transform 0.65s cubic-bezier(0.68, -0.45, 0.27, 1.45), background 0.5s ease, box-shadow 0.5s ease;
+[data-theme="dark"] .sky-stars { opacity: 0.95; }
+.sky-body {
+  position: absolute; left: 0; top: 0; width: 44px; height: 44px;
+  padding: 0; border: none; background: none; cursor: grab;
+  touch-action: none; will-change: transform; z-index: 1;
 }
-.theme-orb::before {
-  content: ""; position: absolute; inset: -8px; border-radius: 50%;
-  background: repeating-conic-gradient(from 0deg, rgba(255, 170, 0, 0.85) 0deg 7deg, transparent 7deg 45deg);
-  -webkit-mask: radial-gradient(circle, transparent 10px, #000 11px);
-  mask: radial-gradient(circle, transparent 10px, #000 11px);
-  animation: orb-spin 16s linear infinite;
-  transition: opacity 0.4s ease;
-}
-.theme-orb::after {
-  content: ""; position: absolute; width: 17px; height: 17px; border-radius: 50%;
-  top: -4px; left: 22px; background: #dff1fd;
-  transition: left 0.55s cubic-bezier(0.68, -0.45, 0.27, 1.45), background 0.5s ease;
-}
-[data-theme="dark"] .theme-orb {
-  background: radial-gradient(circle at 35% 35%, #ffffff, #c9cfda);
-  box-shadow: 0 0 8px 1px rgba(220, 228, 255, 0.35);
-  transform: rotate(360deg);
-}
-[data-theme="dark"] .theme-orb::before { opacity: 0; animation: none; }
-[data-theme="dark"] .theme-orb::after { left: 5px; background: #131a30; }
+.sky-body:active { cursor: grabbing; }
+.sky-body svg { width: 100%; height: 100%; display: block; pointer-events: none; }
+#sky-sun svg { filter: drop-shadow(0 0 7px rgba(255, 176, 46, 0.55)); }
+#sky-moon svg { filter: drop-shadow(0 0 7px rgba(240, 230, 190, 0.5)); }
+.sun-rays { transform-box: fill-box; transform-origin: center; animation: orb-spin 26s linear infinite; }
 @keyframes orb-spin { to { transform: rotate(360deg); } }
 
 /* 테마 전환 시 부드럽게 */
@@ -353,15 +340,18 @@ html.theme-anim .auth-btn, html.theme-anim input, html.theme-anim textarea {
   --border: #2a2f3a;
   --soft: #171a20;
   --surface: #171a20;
-  --card-bg: color-mix(in srgb, var(--cat-bg, #3a3f4a), #12141a 60%);
+  --card-bg: var(--surface);
   color-scheme: dark;
 }
 [data-theme="dark"] .site-header { background: rgba(16, 18, 22, 0.9); }
 [data-theme="dark"] .post-list li:hover { box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45); }
-[data-theme="dark"] .post-thumb { background: color-mix(in srgb, var(--cat-bg, #3a3f4a), #000 25%); }
+[data-theme="dark"] .post-list li.post-card { border-color: var(--cat-bg); }
+[data-theme="dark"] .post-thumb { background: color-mix(in srgb, var(--cat-bg, #3a3f4a), #12141a 80%); }
 [data-theme="dark"] .post-list .post-cat {
-  color: color-mix(in srgb, var(--cat-bg, #aab4c4), #fff 38%);
-  background: color-mix(in srgb, var(--cat-bg, #3a3f4a), #12141a 42%);
+  color: color-mix(in srgb, var(--cat-bg, #aab4c4), #fff 25%);
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--cat-bg, #3a3f4a), #fff 5%);
+  padding: 1px 6px;
 }
 [data-theme="dark"] .post-body .notice { background: #2a2113; border-color: #57451d; }
 [data-theme="dark"] .badge.pub { background: #17351a; color: #7bd88a; }

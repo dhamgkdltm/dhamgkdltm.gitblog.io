@@ -15,11 +15,54 @@
 </head>
 <body>
 <header class="site-header">
+  <div class="sky-band" id="sky-band">
+    <div class="sky-stars"></div>
+    <button class="sky-body" id="sky-sun" type="button" aria-label="해 — 드래그하거나 눌러서 다크모드 전환">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <defs>
+          <radialGradient id="sunGrad" cx="0.38" cy="0.38" r="0.95">
+            <stop offset="0%" stop-color="#ffec8a"/>
+            <stop offset="100%" stop-color="#ffab1f"/>
+          </radialGradient>
+        </defs>
+        <g class="sun-rays">
+            <rect x="23" y="1.5" width="2" height="7.5" rx="1" fill="#ffb02e" transform="rotate(0 24 24)"/>
+            <rect x="23" y="1.5" width="2" height="7.5" rx="1" fill="#ffb02e" transform="rotate(30 24 24)"/>
+            <rect x="23" y="1.5" width="2" height="7.5" rx="1" fill="#ffb02e" transform="rotate(60 24 24)"/>
+            <rect x="23" y="1.5" width="2" height="7.5" rx="1" fill="#ffb02e" transform="rotate(90 24 24)"/>
+            <rect x="23" y="1.5" width="2" height="7.5" rx="1" fill="#ffb02e" transform="rotate(120 24 24)"/>
+            <rect x="23" y="1.5" width="2" height="7.5" rx="1" fill="#ffb02e" transform="rotate(150 24 24)"/>
+            <rect x="23" y="1.5" width="2" height="7.5" rx="1" fill="#ffb02e" transform="rotate(180 24 24)"/>
+            <rect x="23" y="1.5" width="2" height="7.5" rx="1" fill="#ffb02e" transform="rotate(210 24 24)"/>
+            <rect x="23" y="1.5" width="2" height="7.5" rx="1" fill="#ffb02e" transform="rotate(240 24 24)"/>
+            <rect x="23" y="1.5" width="2" height="7.5" rx="1" fill="#ffb02e" transform="rotate(270 24 24)"/>
+            <rect x="23" y="1.5" width="2" height="7.5" rx="1" fill="#ffb02e" transform="rotate(300 24 24)"/>
+            <rect x="23" y="1.5" width="2" height="7.5" rx="1" fill="#ffb02e" transform="rotate(330 24 24)"/>
+        </g>
+        <circle cx="24" cy="24" r="10.5" fill="url(#sunGrad)"/>
+      </svg>
+    </button>
+    <button class="sky-body" id="sky-moon" type="button" aria-label="달 — 드래그하거나 눌러서 라이트모드 전환">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <defs>
+          <radialGradient id="moonGrad" cx="0.35" cy="0.35" r="1.05">
+            <stop offset="0%" stop-color="#fdf6d8"/>
+            <stop offset="100%" stop-color="#e0cb96"/>
+          </radialGradient>
+          <mask id="moonMask">
+            <rect width="48" height="48" fill="black"/>
+            <circle cx="22" cy="24" r="13" fill="white"/>
+            <circle cx="31.5" cy="18.5" r="11" fill="black"/>
+          </mask>
+        </defs>
+        <circle cx="22" cy="24" r="13" fill="url(#moonGrad)" mask="url(#moonMask)"/>
+      </svg>
+    </button>
+  </div>
   <div class="wrap">
     <a class="site-title" href="/dhamgkdltm.gitblog.io/">다우지의 블로그</a>
     <nav>
       <a href="/dhamgkdltm.gitblog.io/">글 목록</a>
-<button id="theme-toggle" class="theme-toggle" type="button" aria-label="테마 전환"><span class="theme-orb"></span></button>
       <span id="auth-area"></span>
     </nav>
   </div>
