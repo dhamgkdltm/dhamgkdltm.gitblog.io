@@ -317,6 +317,8 @@ main h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.02em; margin: 0 
 }
 .sky-body:active { cursor: grabbing; }
 .sky-body svg { width: 100%; height: 100%; display: block; pointer-events: none; }
+.sky-body svg { transition: transform 0.45s cubic-bezier(0.3, 0.7, 0.4, 1); }
+.sky-body.whip svg { transform: rotate(360deg); }
 #sky-sun svg { filter: drop-shadow(0 0 7px rgba(255, 176, 46, 0.55)); }
 #sky-moon svg { filter: drop-shadow(0 0 7px rgba(240, 230, 190, 0.5)); }
 .sun-rays { transform-box: fill-box; transform-origin: center; animation: orb-spin 26s linear infinite; }
