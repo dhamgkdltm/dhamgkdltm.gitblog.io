@@ -265,3 +265,18 @@ main h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.02em; margin: 0 
   border-radius: 10px; font-size: 14.5px; font-weight: 600; cursor: pointer; margin: 0 !important;
 }
 .image-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── 방문 통계 ────────────────────────────────── */
+.stat-cards { display: flex; gap: 10px; margin: 10px 0 14px; }
+.stat-card { flex: 1; background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 8px; text-align: center; display: flex; flex-direction: column; gap: 2px; }
+.stat-num { font-size: 24px; font-weight: 800; }
+.stat-label { font-size: 12px; color: var(--muted); }
+.stat-chart { display: flex; align-items: flex-end; gap: 4px; height: 112px; background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 10px 6px; margin-bottom: 14px; }
+.stat-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 3px; min-width: 0; }
+.stat-bar { width: 70%; max-width: 26px; background: var(--accent); border-radius: 4px 4px 0 0; }
+.stat-bar-num { font-size: 10px; color: var(--muted); }
+.stat-bar-date { font-size: 9px; color: var(--muted); white-space: nowrap; }
+.stat-table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--border); margin-bottom: 8px; }
+.stat-table th, .stat-table td { padding: 9px 12px; text-align: left; font-size: 14px; border-bottom: 1px solid var(--border); }
+.stat-table th:not(:first-child), .stat-table td:not(:first-child) { text-align: right; width: 60px; }
+.stat-table tr:last-child td { border-bottom: none; }

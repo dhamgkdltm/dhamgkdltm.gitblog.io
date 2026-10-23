@@ -38,6 +38,21 @@
     </div>
     <p id="admin-msg" class="form-msg"></p>
 
+    <section id="stats-section">
+      <h2>📊 방문 통계 <button id="stats-refresh" type="button" class="link-btn">새로고침</button></h2>
+      <div class="stat-cards">
+        <div class="stat-card"><span class="stat-num" id="stat-today">-</span><span class="stat-label">오늘 방문자</span></div>
+        <div class="stat-card"><span class="stat-num" id="stat-total">-</span><span class="stat-label">전체 방문자</span></div>
+        <div class="stat-card"><span class="stat-num" id="stat-views-today">-</span><span class="stat-label">오늘 글 조회</span></div>
+      </div>
+      <div id="stat-chart" class="stat-chart"></div>
+      <table class="stat-table">
+        <thead><tr><th>글</th><th>오늘</th><th>전체</th></tr></thead>
+        <tbody id="stat-posts"></tbody>
+      </table>
+      <p id="stats-msg" class="form-msg"></p>
+    </section>
+
     <h2>글 목록</h2>
     <ul id="admin-post-list" class="admin-list"></ul>
 

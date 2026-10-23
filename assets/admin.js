@@ -495,6 +495,43 @@ async function handleImageUpload(ev) {
   }
 }
 
+// ── 방문 통계 ───────────────────────────────────────────────────
+const COUNTER_API = "https://blog-counter.dhamgkdltm.workers.dev";
+async function loadStats() {
+  const msg = $("stats-msg");
+  try {
+    const res = await fetch(`${COUNTER_API}/stats`, {
+      headers: { Authorization: `Bearer ${token()}` },
+    });
+    if (res.status === 404) {
+      msg.textContent = "통계 기능을 쓰려면 카운터 워커 코드를 새 버전으로 교체해주세요.";
+      return;
+    }
+    if (!res.ok) throw new Error("stats " + res.status);
+    const data = await res.json();
+    const fmt = (n) => Number(n || 0).toLocaleString("ko-KR");
+    $("stat-today").textContent = fmt(data.siteToday);
+    $("stat-total").textContent = fmt(data.siteTotal);
+    const titles = {};
+    for (const p of registry) titles[p.slug] = p.title;
+    const posts = (data.posts || []).filter((p) => titles[p.slug]);
+    $("stat-views-today").textContent = fmt(posts.reduce((sum, p) => sum + (p.today || 0), 0));
+    const max = Math.max(1, ...data.days.map((d) => d.visitors));
+    $("stat-chart").innerHTML = data.days.map((d) => `
+      <div class="stat-bar-wrap" title="${d.date}: ${d.visitors}명">
+        <span class="stat-bar-num">${d.visitors ? d.visitors : ""}</span>
+        <div class="stat-bar" style="height:${Math.max(3, Math.round((d.visitors / max) * 100))}%"></div>
+        <span class="stat-bar-date">${d.date.slice(5).replace("-", "/")}</span>
+      </div>`).join("");
+    $("stat-posts").innerHTML = posts.length ? posts.map((p) => `
+      <tr><td>${escapeHtml(titles[p.slug])}</td><td>${fmt(p.today)}</td><td>${fmt(p.total)}</td></tr>`).join("")
+      : `<tr><td colspan="3">아직 집계된 글이 없습니다.</td></tr>`;
+    msg.textContent = "";
+  } catch {
+    msg.textContent = "통계를 불러오지 못했습니다.";
+  }
+}
+
 // ── 시작/토큰 ───────────────────────────────────────────────────
 async function init() {
   if (!token()) {
@@ -507,6 +544,7 @@ async function init() {
     $("token-gate").hidden = true;
     $("admin-main").hidden = false;
     await loadRegistry();
+    loadStats();
     diagnose();
     const m = location.hash.match(/#edit=(.+)/);
     if (m) openEditor(decodeURIComponent(m[1]));
@@ -536,6 +574,7 @@ $("token-save").addEventListener("click", () => {
   }
 });
 $("f-image").addEventListener("change", handleImageUpload);
+$("stats-refresh").addEventListener("click", loadStats);
 $("new-post").addEventListener("click", openNew);
 $("save-post").addEventListener("click", savePost);
 $("delete-post").addEventListener("click", deletePost);
