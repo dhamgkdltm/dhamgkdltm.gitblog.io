@@ -1,5 +1,18 @@
 [
   {
+    "slug": "post-20261023-192220",
+    "title": "테스트글",
+    "date": "2026-10-23",
+    "updated": "2026-10-23",
+    "excerpt": "사진 https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1792750906159 1cpc5c.jpg 테스트 …",
+    "published": true,
+    "category": "일상",
+    "tags": [
+      "일상",
+      "테스트"
+    ]
+  },
+  {
     "date": "2026-10-20",
     "excerpt": "메타에서 출시한 AI 어시스턴트 뮤즈, 한국에서는 바로 가입이 안 돼서 우회했는데 막상 해보니까 10분 컷이었습니다.",
     "published": false,
