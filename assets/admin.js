@@ -102,12 +102,12 @@ async function togglePublished(slug) {
   try {
     const from = `${folderOf(entry.published)}/${slug}.txt`;
     const to = `${folderOf(!entry.published)}/${slug}.txt`;
-    const f = await getFile(from);
+    const f = await step("원본 읽기", () => getFile(from));
     if (!f) throw new Error("원본 파일을 찾지 못했습니다.");
-    await putFile(to, f.text, `공개 전환: ${entry.title}`, null);
-    await deleteFile(from, `공개 전환(원본 삭제): ${entry.title}`, f.sha);
+    await step("새 위치에 파일 만들기", () => putFile(to, f.text, `공개 전환: ${entry.title}`, null));
+    await step("원본 파일 삭제", () => deleteFile(from, `공개 전환(원본 삭제): ${entry.title}`, f.sha));
     entry.published = !entry.published;
-    await saveRegistry(`공개 전환 반영: ${entry.title}`);
+    await step("목록 저장", () => saveRegistry(`공개 전환 반영: ${entry.title}`));
     msg.textContent = "전환 완료. 1분쯤 뒤 사이트에 반영됩니다.";
     renderList();
   } catch (e) {
@@ -183,19 +183,19 @@ async function savePost() {
     const newPath = `${folderOf(published)}/${slug}.txt`;
     if (editing.isNew) {
       if (registry.some((p) => p.slug === slug)) throw new Error("이미 있는 주소(slug)입니다.");
-      await putFile(newPath, md, `새 글: ${title}`, null);
+      await step("글 파일 저장", () => putFile(newPath, md, `새 글: ${title}`, null));
       registry.push({ slug, title, date, updated, excerpt, published });
     } else {
       const oldPath = `${folderOf(editing.published)}/${slug}.txt`;
       if (editing.published !== published) {
-        await putFile(newPath, md, `글 수정: ${title}`, null);
-        await deleteFile(oldPath, `글 수정(이전 위치 삭제): ${title}`, editing.sha);
+        await step("글 파일 새 위치에 저장", () => putFile(newPath, md, `글 수정: ${title}`, null));
+        await step("이전 파일 삭제", () => deleteFile(oldPath, `글 수정(이전 위치 삭제): ${title}`, editing.sha));
       } else {
-        await putFile(newPath, md, `글 수정: ${title}`, editing.sha);
+        await step("글 파일 저장", () => putFile(newPath, md, `글 수정: ${title}`, editing.sha));
       }
       Object.assign(registry.find((p) => p.slug === slug), { title, date, updated, excerpt, published });
     }
-    await saveRegistry(`글 저장 반영: ${title}`);
+    await step("목록 저장", () => saveRegistry(`글 저장 반영: ${title}`));
     msg.textContent = "저장 완료. 1분쯤 뒤 사이트에 반영됩니다.";
     editing = null;
     $("editor").hidden = true;
@@ -225,6 +225,40 @@ async function deletePost() {
   }
 }
 
+async function step(label, fn) {
+  try {
+    return await fn();
+  } catch (e) {
+    throw new Error(`[${label}] ${e.message}`);
+  }
+}
+
+// 앱 설치/저장소 접근 자가진단 (실패해도 본 기능에 영향 없음)
+async function diagnose() {
+  try {
+    const headers = {
+      Authorization: `Bearer ${token()}`,
+      Accept: "application/vnd.github+json",
+    };
+    const res = await fetch("https://api.github.com/user/installations", { headers });
+    if (!res.ok) return;
+    const data = await res.json();
+    const inst = (data.installations || []).find((i) => i.app_id === 5433440);
+    const msgEl = $("admin-msg");
+    if (!inst) {
+      msgEl.textContent = "⚠ 진단: dauzy-blog-admin 앱이 계정에 설치돼 있지 않습니다. 앱 설정의 Install App에서 설치해 주세요.";
+      return;
+    }
+    const r = await fetch(`https://api.github.com/user/installations/${inst.id}/repositories`, { headers });
+    if (!r.ok) return;
+    const rd = await r.json();
+    const has = (rd.repositories || []).some((x) => x.full_name === `${OWNER}/${REPO}`);
+    if (!has) {
+      msgEl.textContent = "⚠ 진단: 앱이 블로그 저장소에 접근할 수 없습니다. 설치 설정에서 블로그 저장소를 선택해 주세요.";
+    }
+  } catch { /* 진단 실패는 무시 */ }
+}
+
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, (ch) => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
@@ -243,6 +277,7 @@ async function init() {
     $("token-gate").hidden = true;
     $("admin-main").hidden = false;
     await loadRegistry();
+    diagnose();
     const m = location.hash.match(/#edit=(.+)/);
     if (m) openEditor(decodeURIComponent(m[1]));
   } catch (e) {
