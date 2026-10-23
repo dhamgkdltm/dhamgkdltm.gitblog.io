@@ -41,6 +41,9 @@
     <div id="editor" class="admin-box" hidden>
       <h2 id="editor-title">글 편집</h2>
       <label>제목 <input type="text" id="f-title"></label>
+      <label>종류 <input type="text" id="f-category" list="category-list" placeholder="예: 가이드, 일상, 리뷰">
+        <datalist id="category-list"></datalist>
+      </label>
       <label class="check"><input type="checkbox" id="f-published"> 공개</label>
       <label>본문 (마크다운)
         <textarea id="f-body" rows="14"></textarea>

@@ -122,3 +122,17 @@ figcaption { color: var(--muted); font-size: 14px; margin-top: 8px; }
   display: inline-block; padding: 10px 20px; background: #24292f; color: #fff;
   border-radius: 8px; font-weight: 700; text-decoration: none;
 }
+
+/* ── 카테고리 ───────────────────────────────── */
+.category-menu { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0 4px; }
+.category-menu .chip {
+  padding: 6px 14px; border: 1px solid var(--border); background: #fff;
+  border-radius: 999px; font-size: 14px; font-weight: 600; cursor: pointer;
+}
+.category-menu .chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.post-list .post-cat {
+  display: inline-block; font-size: 12px; font-weight: 700; color: var(--accent);
+  background: #eef4ff; border-radius: 4px; padding: 1px 6px; margin-right: 6px;
+  vertical-align: middle;
+}
+.admin-list .admin-post-cat { color: var(--muted); font-size: 13px; }

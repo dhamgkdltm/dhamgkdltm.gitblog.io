@@ -83,6 +83,7 @@ function renderList() {
   ul.innerHTML = sorted.map((p) => `
     <li>
       <span class="badge ${p.published ? "pub" : "draft"}">${p.published ? "공개" : "비공개"}</span>
+      <span class="admin-post-cat">${escapeHtml(p.category || "기타")}</span>
       <span class="admin-post-title">${escapeHtml(p.title)}</span>
       <span class="date">${escapeHtml(p.date)}</span>
       <button type="button" data-edit="${escapeHtml(p.slug)}">수정</button>
@@ -116,13 +117,22 @@ async function togglePublished(slug) {
 }
 
 // ── 편집기 ──────────────────────────────────────────────────────
+function fillCategoryList() {
+  const dl = $("category-list");
+  if (!dl) return;
+  const cats = [...new Set(registry.map((p) => p.category || "기타"))];
+  dl.innerHTML = cats.map((c) => `<option value="${escapeHtml(c)}">`).join("");
+}
+
 async function openEditor(slug) {
   const entry = registry.find((p) => p.slug === slug);
   if (!entry) return;
   const f = await getFile(`${folderOf(entry.published)}/${slug}.txt`);
   if (!f) { $("admin-msg").textContent = "파일을 불러오지 못했습니다."; return; }
   editing = { slug, published: entry.published, sha: f.sha, isNew: false, date: entry.date };
+  fillCategoryList();
   $("f-title").value = entry.title;
+  $("f-category").value = entry.category || "기타";
   $("f-published").checked = entry.published;
   $("f-body").value = f.text.trim();
   $("editor-title").textContent = "글 편집";
@@ -157,7 +167,9 @@ function autoExcerpt(body) {
 
 function openNew() {
   editing = { slug: null, published: false, sha: null, isNew: true, date: null };
+  fillCategoryList();
   $("f-title").value = "";
+  $("f-category").value = "";
   $("f-published").checked = false;
   $("f-body").value = "";
   $("editor-title").textContent = "새 글 쓰기";
@@ -169,6 +181,7 @@ function openNew() {
 async function savePost() {
   const msg = $("editor-msg");
   const title = $("f-title").value.trim();
+  const category = $("f-category").value.trim() || "기타";
   const published = $("f-published").checked;
   const body = $("f-body").value;
   if (!title) { msg.textContent = "제목을 입력해 주세요."; return; }
@@ -184,7 +197,7 @@ async function savePost() {
     if (editing.isNew) {
       if (registry.some((p) => p.slug === slug)) throw new Error("이미 있는 주소(slug)입니다.");
       await step("글 파일 저장", () => putFile(newPath, md, `새 글: ${title}`, null));
-      registry.push({ slug, title, date, updated, excerpt, published });
+      registry.push({ slug, title, date, updated, excerpt, published, category });
     } else {
       const oldPath = `${folderOf(editing.published)}/${slug}.txt`;
       if (editing.published !== published) {
@@ -193,7 +206,7 @@ async function savePost() {
       } else {
         await step("글 파일 저장", () => putFile(newPath, md, `글 수정: ${title}`, editing.sha));
       }
-      Object.assign(registry.find((p) => p.slug === slug), { title, date, updated, excerpt, published });
+      Object.assign(registry.find((p) => p.slug === slug), { title, date, updated, excerpt, published, category });
     }
     await step("목록 저장", () => saveRegistry(`글 저장 반영: ${title}`));
     msg.textContent = "저장 완료. 1분쯤 뒤 사이트에 반영됩니다.";
