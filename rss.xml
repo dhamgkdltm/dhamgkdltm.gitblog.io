@@ -4,5 +4,12 @@
     <title>다우지의 블로그</title>
     <link>https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/</link>
     <description>다우지의 블로그 새 글 소식</description>
+    <item>
+      <title>테스트글</title>
+      <link>https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/post.html?p=post-20261023-192220</link>
+      <guid isPermaLink="true">https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/post.html?p=post-20261023-192220</guid>
+      <pubDate>Fri, 23 Oct 2026 00:00:00 GMT</pubDate>
+      <description>사진 https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1792750906159 1cpc5c.jpg 테스트 …</description>
+    </item>
   </channel>
 </rss>
