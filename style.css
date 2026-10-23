@@ -56,7 +56,9 @@ main h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.02em; margin: 0 
 .post-list a:hover { color: var(--accent); text-decoration: none; }
 .post-list .date { color: var(--muted); font-size: 13px; margin-left: 8px; white-space: nowrap; }
 .post-list .excerpt { color: var(--muted); margin: 8px 0 0; font-size: 15px; line-height: 1.6; }
-.post-list li.post-card { background: var(--cat-bg, #fff); display: flex; gap: 16px; }
+.post-list li.post-card { background: var(--cat-bg, #fff); display: flex; gap: 16px; position: relative; cursor: pointer; }
+.post-card .post-title::after { content: ""; position: absolute; inset: 0; }
+.post-card .tag-chip { position: relative; z-index: 1; }
 .post-thumb {
   position: relative; flex: 0 0 132px; height: 98px; border-radius: 10px; overflow: hidden;
   background: color-mix(in srgb, var(--cat-bg, #e8eaf0), #000 6%);

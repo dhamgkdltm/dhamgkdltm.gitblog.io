@@ -53,7 +53,7 @@ function postItem(p, extra = "") {
       <div class="post-thumb" data-slug="${escapeHtml(p.slug)}"><span class="post-thumb-icon">🤖</span>${thumbImg}</div>
       <div class="post-info">
         <span class="post-cat">${escapeHtml(p.category || "기타")}</span>
-        <a href="${BASE}/post.html?p=${encodeURIComponent(p.slug)}">${escapeHtml(p.title)}</a>
+        <a class="post-title" href="${BASE}/post.html?p=${encodeURIComponent(p.slug)}">${escapeHtml(p.title)}</a>
         <span class="date">${escapeHtml(p.date)}</span>
         <p class="excerpt">${escapeHtml(p.excerpt || "")}</p>
         ${extra}
