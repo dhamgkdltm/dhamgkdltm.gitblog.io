@@ -329,7 +329,7 @@ html.theme-anim body, html.theme-anim .site-header, html.theme-anim .post-list l
 html.theme-anim .admin-box, html.theme-anim .admin-list li, html.theme-anim .stat-card,
 html.theme-anim .stat-chart, html.theme-anim .stat-table, html.theme-anim .intro-box,
 html.theme-anim .auth-btn, html.theme-anim input, html.theme-anim textarea {
-  transition: background-color 0.45s ease, color 0.45s ease, border-color 0.45s ease;
+  transition: background-color 0.95s ease, color 0.95s ease, border-color 0.95s ease;
 }
 
 /* ── 다크 테마 ────────────────────────────────── */

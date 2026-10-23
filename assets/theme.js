@@ -26,7 +26,9 @@
     const sun = document.getElementById("sky-sun");
     const moon = document.getElementById("sky-moon");
 
-    const PRIME = 0.85; // 떠 있을 때 자리 (오른쪽 위)
+    const SUN0 = 0.85;  // 낮일 때 해의 자리 (오른쪽 위)
+    const SWEEP = 1.4;  // 전환 시 궤도 이동량
+    const GAP = 0.7;    // 해와 달 사이의 간격 (밤엔 달이 왼쪽 위에 자리)
     let p = document.documentElement.dataset.theme === "dark" ? 1 : 0; // 0 낮, 1 밤
     let raf = null;
 
@@ -37,14 +39,46 @@
       return { x, y };
     }
 
+// 낮 → 노을 → 밤 팔레트 (p에 따라 색이 흐른다)
+    const STOPS = {
+      bg:     [[255, 255, 255], [255, 226, 196], [16, 18, 22]],
+      surface:[[255, 255, 255], [255, 240, 222], [23, 26, 32]],
+      soft:   [[248, 250, 252], [255, 231, 205], [23, 26, 32]],
+      border: [[229, 232, 235], [243, 205, 170], [42, 47, 58]],
+      muted:  [[107, 118, 132], [146, 110, 92],  [154, 163, 178]],
+      text:   [[25, 31, 40],    [58, 36, 24],    [233, 235, 239]],
+      skyTop: [[217, 239, 255], [255, 157, 92],  [9, 13, 28]],
+      skyBot: [[242, 249, 255], [255, 107, 138], [22, 32, 60]],
+    };
+    const starsEl = band.querySelector(".sky-stars");
+    function mix3(stops, t) {
+      const seg = t < 0.5 ? 0 : 1;
+      const k = t < 0.5 ? t * 2 : (t - 0.5) * 2;
+      const a = stops[seg], b = stops[seg + 1];
+      return a.map((v, i) => Math.round(v + (b[i] - v) * k));
+    }
+    function rgb(c) { return `rgb(${c[0]}, ${c[1]}, ${c[2]})`; }
+    function applyPalette() {
+      const root = document.documentElement.style;
+      for (const key of ["bg", "surface", "soft", "border", "muted", "text"]) {
+        root.setProperty("--" + key, rgb(mix3(STOPS[key], p)));
+      }
+      band.style.background =
+        `linear-gradient(180deg, ${rgb(mix3(STOPS.skyTop, p))} 0%, ${rgb(mix3(STOPS.skyBot, p))} 100%)`;
+      if (starsEl) {
+        starsEl.style.opacity = String(Math.max(0, Math.min(1, (p - 0.55) / 0.4)) * 0.95);
+      }
+    }
+
     function layout() {
       const W = band.clientWidth;
-      const sunT = PRIME - p;        // 해: 낮엔 PRIME, 밤엔 왼쪽 밖
-      const moonT = sunT + 1;        // 달: 해와 궤도 하나 간격
+      const sunT = SUN0 - SWEEP * p; // 해: 낮엔 오른쪽 위, 밤엔 왼쪽 밖
+      const moonT = sunT + GAP;      // 달: 밤엔 왼쪽 위, 낮엔 오른쪽 밖
       const sp = pos(sunT, W);
       const mp = pos(moonT, W);
       sun.style.transform = `translate(${sp.x - 22}px, ${sp.y - 22}px)`;
       moon.style.transform = `translate(${mp.x - 22}px, ${mp.y - 22}px)`;
+      applyPalette();
     }
 
     function syncTheme() {
@@ -52,7 +86,7 @@
       if (want !== document.documentElement.dataset.theme) {
         document.documentElement.classList.add("theme-anim");
         applyTheme(want);
-        setTimeout(() => document.documentElement.classList.remove("theme-anim"), 600);
+        setTimeout(() => document.documentElement.classList.remove("theme-anim"), 1000);
       }
     }
 
@@ -68,7 +102,7 @@
       const from = p;
       const start = performance.now();
       const whip = !!whipEl && Math.round(from) !== target;
-      const dur = whip ? 420 : 520;
+      const dur = whip ? 680 : 820;
       const ease = whip ? easeOutQuint : easeOutBack;
       if (whip) {
         whipEl.classList.add("whip");
@@ -100,7 +134,7 @@
       if (Math.abs(dx) > 5) drag.moved = true;
       const W = band.clientWidth;
       // 왼쪽으로 끌면 밤으로, 오른쪽으로 끌면 낮으로
-      p = Math.min(1, Math.max(0, drag.p0 - dx / (1.04 * W)));
+      p = Math.min(1, Math.max(0, drag.p0 - dx / (W * 1.15)));
       layout();
       syncTheme();
     });
