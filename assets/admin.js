@@ -63,6 +63,34 @@ async function loadRegistry() {
   registry = f ? JSON.parse(f.text) : [];
   registrySha = f ? f.sha : null;
   renderList();
+  reconcileLocations();
+}
+
+// 파일의 실제 위치(posts/=_공개, _drafts/=_비공개)를 찾아 반환한다.
+async function locatePost(slug) {
+  const pub = await getFile(`posts/${slug}.txt`);
+  if (pub) return { folder: "posts", published: true, file: pub };
+  const draft = await getFile(`_drafts/${slug}.txt`);
+  if (draft) return { folder: "_drafts", published: false, file: draft };
+  return null;
+}
+
+// 목록의 공개 상태가 실제 파일 위치와 다르면 파일 위치에 맞춰 자동 정정한다.
+async function reconcileLocations() {
+  try {
+    let changed = false;
+    for (const entry of registry) {
+      const loc = await locatePost(entry.slug);
+      if (loc && loc.published !== entry.published) {
+        entry.published = loc.published;
+        changed = true;
+      }
+    }
+    if (changed) {
+      await saveRegistry("글 상태 자동 동기화");
+      renderList();
+    }
+  } catch { /* 동기화 실패는 무시 */ }
 }
 
 async function saveRegistry(message) {
@@ -101,13 +129,14 @@ async function togglePublished(slug) {
   const msg = $("admin-msg");
   msg.textContent = "전환 중…";
   try {
-    const from = `${folderOf(entry.published)}/${slug}.txt`;
-    const to = `${folderOf(!entry.published)}/${slug}.txt`;
-    const f = await step("원본 읽기", () => getFile(from));
-    if (!f) throw new Error("원본 파일을 찾지 못했습니다.");
-    await step("새 위치에 파일 만들기", () => putFile(to, f.text, `공개 전환: ${entry.title}`, null));
-    await step("원본 파일 삭제", () => deleteFile(from, `공개 전환(원본 삭제): ${entry.title}`, f.sha));
-    entry.published = !entry.published;
+    const loc = await step("파일 위치 확인", () => locatePost(slug));
+    if (!loc) throw new Error("파일을 찾지 못했습니다.");
+    const target = !loc.published;
+    const from = `${loc.folder}/${slug}.txt`;
+    const to = `${folderOf(target)}/${slug}.txt`;
+    await step("새 위치에 파일 만들기", () => putFile(to, loc.file.text, `공개 전환: ${entry.title}`, null));
+    await step("원본 파일 삭제", () => deleteFile(from, `공개 전환(원본 삭제): ${entry.title}`, loc.file.sha));
+    entry.published = target;
     await step("목록 저장", () => saveRegistry(`공개 전환 반영: ${entry.title}`));
     msg.textContent = "전환 완료. 1분쯤 뒤 사이트에 반영됩니다.";
     renderList();
@@ -127,14 +156,14 @@ function fillCategoryList() {
 async function openEditor(slug) {
   const entry = registry.find((p) => p.slug === slug);
   if (!entry) return;
-  const f = await getFile(`${folderOf(entry.published)}/${slug}.txt`);
-  if (!f) { $("admin-msg").textContent = "파일을 불러오지 못했습니다."; return; }
-  editing = { slug, published: entry.published, sha: f.sha, isNew: false, date: entry.date };
+  const loc = await locatePost(slug);
+  if (!loc) { $("admin-msg").textContent = "파일을 불러오지 못했습니다."; return; }
+  editing = { slug, published: loc.published, sha: loc.file.sha, isNew: false, date: entry.date };
   fillCategoryList();
   $("f-title").value = entry.title;
   $("f-category").value = entry.category || "기타";
-  $("f-published").checked = entry.published;
-  $("f-body").value = f.text.trim();
+  $("f-published").checked = loc.published;
+  $("f-body").value = loc.file.text.trim();
   $("editor-title").textContent = "글 편집";
   $("delete-post").style.display = "";
   $("editor").hidden = false;
@@ -199,12 +228,14 @@ async function savePost() {
       await step("글 파일 저장", () => putFile(newPath, md, `새 글: ${title}`, null));
       registry.push({ slug, title, date, updated, excerpt, published, category });
     } else {
-      const oldPath = `${folderOf(editing.published)}/${slug}.txt`;
-      if (editing.published !== published) {
+      const loc = await step("현재 파일 확인", () => locatePost(slug));
+      if (!loc) throw new Error("기존 파일을 찾지 못했습니다.");
+      const oldPath = `${loc.folder}/${slug}.txt`;
+      if (loc.published !== published) {
         await step("글 파일 새 위치에 저장", () => putFile(newPath, md, `글 수정: ${title}`, null));
-        await step("이전 파일 삭제", () => deleteFile(oldPath, `글 수정(이전 위치 삭제): ${title}`, editing.sha));
+        await step("이전 파일 삭제", () => deleteFile(oldPath, `글 수정(이전 위치 삭제): ${title}`, loc.file.sha));
       } else {
-        await step("글 파일 저장", () => putFile(newPath, md, `글 수정: ${title}`, editing.sha));
+        await step("글 파일 저장", () => putFile(newPath, md, `글 수정: ${title}`, loc.file.sha));
       }
       Object.assign(registry.find((p) => p.slug === slug), { title, date, updated, excerpt, published, category });
     }
@@ -224,9 +255,10 @@ async function deletePost() {
   const msg = $("editor-msg");
   msg.textContent = "삭제 중…";
   try {
-    const path = `${folderOf(editing.published)}/${editing.slug}.txt`;
-    const f = await getFile(path);
-    if (f) await deleteFile(path, `글 삭제: ${editing.slug}`, f.sha);
+    const loc = await locatePost(editing.slug);
+    if (loc) {
+      await deleteFile(`${loc.folder}/${editing.slug}.txt`, `글 삭제: ${editing.slug}`, loc.file.sha);
+    }
     registry = registry.filter((p) => p.slug !== editing.slug);
     await saveRegistry(`글 삭제 반영: ${editing.slug}`);
     editing = null;
