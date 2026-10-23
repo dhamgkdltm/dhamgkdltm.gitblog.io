@@ -292,11 +292,13 @@ async function savePost() {
   msg.textContent = "저장 중…";
   try {
     const md = body.trim() + "\n";
+    const thumbMatch = md.match(/!\[[^\]]*\]\((https?:[^)\s]+)\)/) || md.match(/<img[^>]+src="(https?:[^"]+)"/i);
+    const thumb = thumbMatch ? thumbMatch[1] : "";
     const newPath = `${folderOf(published)}/${slug}.txt`;
     if (editing.isNew) {
       if (registry.some((p) => p.slug === slug)) throw new Error("이미 있는 주소(slug)입니다.");
       await step("글 파일 저장", () => putFile(newPath, md, `새 글: ${title}`, null));
-      registry.push({ slug, title, date, updated, excerpt, published, category, tags });
+      registry.push({ slug, title, date, updated, excerpt, published, category, tags, thumb });
     } else {
       const loc = await step("현재 파일 확인", () => locatePost(slug));
       if (!loc) throw new Error("기존 파일을 찾지 못했습니다.");
@@ -307,7 +309,7 @@ async function savePost() {
       } else {
         await step("글 파일 저장", () => putFile(newPath, md, `글 수정: ${title}`, loc.file.sha));
       }
-      Object.assign(registry.find((p) => p.slug === slug), { title, date, updated, excerpt, published, category, tags });
+      Object.assign(registry.find((p) => p.slug === slug), { title, date, updated, excerpt, published, category, tags, thumb });
     }
     await step("목록 저장", () => saveRegistry(`글 저장 반영: ${title}`));
     clearDraft();
