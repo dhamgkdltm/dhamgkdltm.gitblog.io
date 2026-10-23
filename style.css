@@ -360,26 +360,10 @@ html.theme-anim .auth-btn, html.theme-anim input, html.theme-anim textarea {
 [data-theme="dark"] .badge.draft { background: #3a2c10; color: #f2c169; }
 [data-theme="dark"] .search-box input { background: var(--surface); color: var(--text); }
 
-/* ── 하단 고정 메뉴 (손잡이 서랍식) ───────────── */
+/* ── 하단 고정 메뉴 ─────────────────────────── */
 body { padding-bottom: 86px; }
-html.bar-closed body { padding-bottom: 26px; }
 .bottom-bar {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
-  transition: transform 0.38s cubic-bezier(0.3, 0.8, 0.3, 1);
-}
-.bottom-bar.closed { transform: translateY(100%); }
-.bottom-handle {
-  position: absolute; top: -19px; left: 50%; transform: translateX(-50%);
-  width: 68px; height: 20px; padding: 0; cursor: grab;
-  background: var(--surface); border: 1px solid var(--border); border-bottom: none;
-  border-radius: 10px 10px 0 0; box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.06);
-  display: flex; align-items: center; justify-content: center;
-  touch-action: none; z-index: 1;
-}
-.bottom-handle:active { cursor: grabbing; }
-.bottom-handle .grip {
-  width: 30px; height: 4px; border-radius: 999px; background: var(--muted); opacity: 0.55;
-  pointer-events: none;
 }
 .bottom-bar-body {
   background: var(--surface); border-top: 1px solid var(--border);
