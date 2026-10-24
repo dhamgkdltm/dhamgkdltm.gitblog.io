@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     if (navigator.share) {
       try {
-        await navigator.share({ title: "다우지의 블로그", text: "다우지의 블로그", url: SITE_URL });
+        await navigator.share({ title: "루미라의 공간", text: "루미라의 공간", url: SITE_URL });
         return;
       } catch (e) {
         if (e && e.name === "AbortError") return; // 공유 취소는 그대로

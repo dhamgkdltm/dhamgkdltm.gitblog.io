@@ -131,9 +131,9 @@ function buildRss() {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>다우지의 블로그</title>
+    <title>루미라의 공간</title>
     <link>${SITE_URL}/</link>
-    <description>다우지의 블로그 새 글 소식</description>${items}
+    <description>루미라의 공간 새 글 소식</description>${items}
   </channel>
 </rss>
 `;

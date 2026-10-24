@@ -25,7 +25,7 @@ async function load() {
     const res = await fetch(`${BASE}/posts/${slug}.txt`, { cache: "no-store" });
     if (!res.ok) throw new Error("not found");
     const body = await res.text();
-    document.title = `${entry.title} — 다우지의 블로그`;
+    document.title = `${entry.title} — 루미라의 공간`;
     titleEl.textContent = entry.title;
     const dateEl = document.getElementById("post-date");
     dateEl.textContent = entry.category ? `${entry.category} · ` : "";
