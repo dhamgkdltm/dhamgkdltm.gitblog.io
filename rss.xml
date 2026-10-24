@@ -5,11 +5,18 @@
     <link>https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/</link>
     <description>다우지의 블로그 새 글 소식</description>
     <item>
+      <title>스와이프 테스트용 글</title>
+      <link>https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/post.html?p=test-swipe</link>
+      <guid isPermaLink="true">https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/post.html?p=test-swipe</guid>
+      <pubDate>Sat, 24 Oct 2026 00:00:00 GMT</pubDate>
+      <description>스와이프로 글 넘기기를 테스트하는 글입니다.</description>
+    </item>
+    <item>
       <title>테스트글</title>
       <link>https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/post.html?p=post-20261023-192220</link>
       <guid isPermaLink="true">https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/post.html?p=post-20261023-192220</guid>
       <pubDate>Fri, 23 Oct 2026 00:00:00 GMT</pubDate>
-      <description>사진 https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1792750906159 1cpc5c.jpg 테스트 …</description>
+      <description>테스트 글 입니다.</description>
     </item>
   </channel>
 </rss>
