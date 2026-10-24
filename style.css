@@ -420,3 +420,14 @@ body { padding-bottom: 86px; }
 .post-nav-title { font-size: 15px; font-weight: 700; line-height: 1.5; }
 .post-nav-empty { display: block; }
 .post-nav-hint { grid-column: 1 / -1; margin: 0; font-size: 12.5px; color: var(--muted); text-align: center; }
+
+/* ── 글 전환 애니메이션 ───────────────────────── */
+main.swipe-exit-left { transform: translateX(-100%); opacity: 0; transition: transform 0.26s ease-in, opacity 0.26s ease-in; }
+main.swipe-exit-right { transform: translateX(100%); opacity: 0; transition: transform 0.26s ease-in, opacity 0.26s ease-in; }
+main.swipe-enter-from-right { transform: translateX(100%); opacity: 0; }
+main.swipe-enter-from-left { transform: translateX(-100%); opacity: 0; }
+main.swipe-enter-from-right.swipe-enter-active,
+main.swipe-enter-from-left.swipe-enter-active {
+  transform: translateX(0); opacity: 1;
+  transition: transform 0.34s ease-out, opacity 0.34s ease-out;
+}

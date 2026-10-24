@@ -3,6 +3,15 @@ const BASE = "/dhamgkdltm.gitblog.io";
 const slug = new URLSearchParams(location.search).get("p") || "";
 
 async function load() {
+  const mainEl = document.querySelector("main.wrap");
+  let swipeDir = null;
+  try {
+    swipeDir = sessionStorage.getItem("post-swipe-dir");
+    sessionStorage.removeItem("post-swipe-dir");
+  } catch { /* 무시 */ }
+  if (mainEl && swipeDir) {
+    mainEl.classList.add(swipeDir === "left" ? "swipe-enter-from-right" : "swipe-enter-from-left");
+  }
   const titleEl = document.getElementById("post-title");
   const contentEl = document.getElementById("post-content");
   if (!slug || !/^[a-z0-9-]+$/.test(slug)) {
@@ -35,7 +44,16 @@ async function load() {
     wireShare(entry.title);
     loadGiscus(slug);
     wireNav(reg, slug);
+    if (mainEl && swipeDir) {
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        mainEl.classList.add("swipe-enter-active");
+        setTimeout(() => mainEl.classList.remove(
+          "swipe-enter-from-right", "swipe-enter-from-left", "swipe-enter-active"), 450);
+      }));
+    }
   } catch {
+    if (mainEl) mainEl.classList.remove(
+      "swipe-enter-from-right", "swipe-enter-from-left", "swipe-enter-active");
     titleEl.textContent = "비공개 글이거나 없는 글입니다";
     contentEl.innerHTML = "";
     document.getElementById("comments").style.display = "none";
@@ -61,10 +79,26 @@ function wireNav(reg, slug) {
       (newer ? link(newer, "다음 글 →") : empty) +
       `<p class="post-nav-hint">글 본문을 좌우로 넘겨서 이동할 수 있어요</p>`;
   }
-  const go = (dir) => {
-    const target = dir === "left" ? older : newer;
-    if (target) location.href = `${BASE}/post.html?p=${encodeURIComponent(target.slug)}`;
+  const go = (dir, href) => {
+    const target = href || (() => {
+      const t = dir === "left" ? older : newer;
+      return t ? `${BASE}/post.html?p=${encodeURIComponent(t.slug)}` : null;
+    })();
+    if (!target) return;
+    const main = document.querySelector("main.wrap");
+    if (main) main.classList.add(dir === "left" ? "swipe-exit-left" : "swipe-exit-right");
+    try { sessionStorage.setItem("post-swipe-dir", dir); } catch { /* 무시 */ }
+    setTimeout(() => { location.href = target; }, 260);
   };
+  if (nav) {
+    nav.querySelectorAll("a").forEach((a) => {
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        const p2 = new URLSearchParams(new URL(a.href).search).get("p");
+        go(p2 === (older && older.slug) ? "left" : "right", a.href);
+      });
+    });
+  }
   const article = document.querySelector(".post-body");
   if (!article) return;
   let sx = 0, sy = 0;
