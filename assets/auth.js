@@ -17,7 +17,7 @@ function renderAuth() {
     if (authToken()) {
       area.innerHTML =
         `<a href="${SITE_BASE}/admin.html">글 관리</a>` +
-        `<button type="button" class="auth-btn" id="auth-logout">로그아웃</button>`;
+        `<button type="button" class="auth-btn auth-icon-btn" id="auth-logout" aria-label="로그아웃" title="로그아웃"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>`;
       document.getElementById("auth-logout").addEventListener("click", logout);
     } else {
       area.innerHTML =

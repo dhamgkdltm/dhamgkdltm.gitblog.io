@@ -439,3 +439,10 @@ main.swipe-enter-from-left.swipe-enter-active {
   cursor: pointer; font-family: inherit; color: var(--text);
 }
 .footer-share-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── 아이콘 로그아웃 버튼 ─────────────────────── */
+.auth-btn.auth-icon-btn {
+  padding: 7px 10px; line-height: 0; display: inline-flex; align-items: center;
+}
+.admin-list button.danger { color: #e5484d; border-color: #f0b3b5; }
+.admin-list button.danger:hover { border-color: #e5484d; color: #e5484d; }

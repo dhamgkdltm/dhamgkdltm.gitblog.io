@@ -169,6 +169,7 @@ function renderList() {
       </div>
       <div class="admin-item-actions">
         <button type="button" data-edit="${escapeHtml(p.slug)}">수정</button>
+        <button type="button" class="danger" data-del="${escapeHtml(p.slug)}">삭제</button>
         <button type="button" data-toggle="${escapeHtml(p.slug)}">${p.published ? "비공개로" : "공개로"}</button>
       </div>
     </li>`).join("") || `<li>글이 없습니다.</li>`;
@@ -176,6 +177,29 @@ function renderList() {
     b.addEventListener("click", () => openEditor(b.dataset.edit)));
   ul.querySelectorAll("[data-toggle]").forEach((b) =>
     b.addEventListener("click", () => togglePublished(b.dataset.toggle)));
+  ul.querySelectorAll("[data-del]").forEach((b) =>
+    b.addEventListener("click", () => deleteFromList(b.dataset.del)));
+}
+
+async function deleteFromList(slug) {
+  const entry = registry.find((p) => p.slug === slug);
+  if (!entry) return;
+  if (!confirm(`"${entry.title}" 글을 완전히 삭제할까요?`)) return;
+  const msg = $("admin-msg");
+  msg.textContent = "삭제 중…";
+  try {
+    const loc = await step("파일 위치 확인", () => locatePost(slug));
+    if (loc) {
+      await step("파일 삭제", () => deleteFile(`${loc.folder}/${slug}.txt`, `글 삭제: ${entry.title}`, loc.file.sha));
+    }
+    registry = registry.filter((p) => p.slug !== slug);
+    await step("목록 저장", () => saveRegistry(`글 삭제 반영: ${entry.title}`));
+    if (editing && editing.slug === slug) { editing = null; $("editor").hidden = true; }
+    msg.textContent = "삭제 완료.";
+    renderList();
+  } catch (e) {
+    msg.textContent = "실패: " + e.message;
+  }
 }
 
 async function togglePublished(slug) {
