@@ -405,3 +405,18 @@ body { padding-bottom: 86px; }
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* ── 이전/다음 글 ─────────────────────────────── */
+.post-nav {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 36px 0 8px;
+}
+.post-nav a {
+  display: block; border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 13px 15px; color: var(--text);
+}
+.post-nav a:hover { text-decoration: none; border-color: var(--accent); }
+.post-nav a:last-of-type { text-align: right; }
+.post-nav-label { display: block; font-size: 12.5px; color: var(--muted); margin-bottom: 3px; }
+.post-nav-title { font-size: 15px; font-weight: 700; line-height: 1.5; }
+.post-nav-empty { display: block; }
+.post-nav-hint { grid-column: 1 / -1; margin: 0; font-size: 12.5px; color: var(--muted); text-align: center; }

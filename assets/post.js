@@ -34,6 +34,7 @@ async function load() {
     }
     wireShare(entry.title);
     loadGiscus(slug);
+    wireNav(reg, slug);
   } catch {
     titleEl.textContent = "비공개 글이거나 없는 글입니다";
     contentEl.innerHTML = "";
@@ -41,6 +42,44 @@ async function load() {
     const sb = document.querySelector(".share-box");
     if (sb) sb.style.display = "none";
   }
+}
+
+// 이전/다음 글 내비 + 본문 스와이프 (목록은 최신 순)
+function wireNav(reg, slug) {
+  const list = reg.filter((x) => x.published)
+    .sort((a, b) => (a.date < b.date ? 1 : -1));
+  const idx = list.findIndex((x) => x.slug === slug);
+  if (idx < 0) return;
+  const newer = idx > 0 ? list[idx - 1] : null;   // 다음 글
+  const older = idx < list.length - 1 ? list[idx + 1] : null; // 이전 글
+  const nav = document.getElementById("post-nav");
+  if (nav) {
+    const link = (x, label) =>
+      `<a href="${BASE}/post.html?p=${encodeURIComponent(x.slug)}"><span class="post-nav-label">${label}</span><span class="post-nav-title">${escapeHtml(x.title)}</span></a>`;
+    const empty = `<span class="post-nav-empty"></span>`;
+    nav.innerHTML = (older ? link(older, "← 이전 글") : empty) +
+      (newer ? link(newer, "다음 글 →") : empty) +
+      `<p class="post-nav-hint">글 본문을 좌우로 넘겨서 이동할 수 있어요</p>`;
+  }
+  const go = (dir) => {
+    const target = dir === "left" ? older : newer;
+    if (target) location.href = `${BASE}/post.html?p=${encodeURIComponent(target.slug)}`;
+  };
+  const article = document.querySelector(".post-body");
+  if (!article) return;
+  let sx = 0, sy = 0;
+  article.addEventListener("touchstart", (e) => {
+    const t = e.changedTouches[0];
+    sx = t.clientX; sy = t.clientY;
+  }, { passive: true });
+  article.addEventListener("touchend", (e) => {
+    if (e.target.closest("a")) return; // 링크 터치는 그대로
+    const t = e.changedTouches[0];
+    const dx = t.clientX - sx, dy = t.clientY - sy;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      go(dx < 0 ? "left" : "right");
+    }
+  }, { passive: true });
 }
 
 function escapeHtml(s) {
