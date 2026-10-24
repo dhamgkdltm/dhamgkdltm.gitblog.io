@@ -23,3 +23,31 @@
     }[ch]));
   }
 })();
+
+// 푸터 블로그 공유: 모바일은 네이티브 공유 시트(카카오톡 포함), 나머지는 링크 복사
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("footer-share-btn");
+  if (!btn) return;
+  const SITE_URL = "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/";
+  btn.addEventListener("click", async () => {
+    const original = btn.textContent;
+    const done = (msg) => {
+      btn.textContent = msg;
+      setTimeout(() => { btn.textContent = original; }, 2000);
+    };
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: "다우지의 블로그", text: "다우지의 블로그", url: SITE_URL });
+        return;
+      } catch (e) {
+        if (e && e.name === "AbortError") return; // 공유 취소는 그대로
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(SITE_URL);
+      done("링크 복사됨!");
+    } catch {
+      done("공유 불가");
+    }
+  });
+});

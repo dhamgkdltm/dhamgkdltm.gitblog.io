@@ -431,3 +431,11 @@ main.swipe-enter-from-left.swipe-enter-active {
   transform: translateX(0); opacity: 1;
   transition: transform 0.34s ease-out, opacity 0.34s ease-out;
 }
+
+/* ── 푸터 공유 ──────────────────────────────── */
+.footer-share-btn {
+  margin-top: 12px; padding: 8px 18px; border: 1px solid var(--border);
+  background: var(--surface); border-radius: 999px; font-size: 14px; font-weight: 700;
+  cursor: pointer; font-family: inherit; color: var(--text);
+}
+.footer-share-btn:hover { border-color: var(--accent); color: var(--accent); }
