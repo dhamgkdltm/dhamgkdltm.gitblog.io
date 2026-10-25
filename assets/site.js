@@ -141,4 +141,4 @@ async function main() {
   fillThumbs(posts);
 }
 
-main();
+main().finally(() => window.loadGoogleTranslate?.());

@@ -465,3 +465,13 @@ main.swipe-enter-from-left.swipe-enter-active {
 [data-theme="dark"] .post-body #post-content mark {
   background: linear-gradient(transparent 62%, rgba(245,158,11,0.45) 62%, rgba(245,158,11,0.45) 96%, transparent 96%);
 }
+
+/* ── 번역 위젯 ─────────────────────────────── */
+.translate-widget { margin-top: 10px; }
+.translate-widget .goog-te-gadget-simple {
+  background: var(--surface); border-color: var(--border);
+  border-radius: 8px; padding: 4px 8px; font-size: 0.85rem;
+}
+.translate-widget .goog-te-gadget-simple .goog-te-menu-value,
+.translate-widget .goog-te-gadget-simple .goog-te-menu-value span { color: var(--text); }
+.goog-te-banner-frame { display: none !important; }

@@ -167,4 +167,4 @@ function loadGiscus(term) {
   document.querySelector(".giscus").appendChild(s);
 }
 
-load();
+load().finally(() => window.loadGoogleTranslate?.());
