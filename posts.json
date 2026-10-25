@@ -12,30 +12,5 @@
       "유전자"
     ],
     "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1792910645984-ncv9ao.jpg"
-  },
-  {
-    "slug": "test-swipe",
-    "title": "스와이프 테스트용 글",
-    "date": "2026-10-24",
-    "updated": "2026-10-24",
-    "excerpt": "스와이프로 글 넘기기를 테스트하는 글입니다.",
-    "published": true,
-    "category": "일상",
-    "tags": [
-      "테스트"
-    ]
-  },
-  {
-    "slug": "post-20261023-192220",
-    "title": "테스트글",
-    "date": "2026-10-23",
-    "updated": "2026-10-23",
-    "excerpt": "테스트 글 입니다.",
-    "published": true,
-    "category": "일상",
-    "tags": [
-      "일상",
-      "테스트"
-    ]
   }
 ]
