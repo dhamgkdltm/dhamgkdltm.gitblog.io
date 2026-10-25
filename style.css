@@ -446,3 +446,22 @@ main.swipe-enter-from-left.swipe-enter-active {
 }
 .admin-list button.danger { color: #e5484d; border-color: #f0b3b5; }
 .admin-list button.danger:hover { border-color: #e5484d; color: #e5484d; }
+
+/* ── 글 본문 소제목·키워드 강조 ─────────────────── */
+.post-body #post-content h2 {
+  font-size: 1.25rem; line-height: 1.4;
+  margin: 1.6em 0 0.6em; padding-left: 12px;
+  border-left: 4px solid #f59e0b;
+}
+.post-body #post-content h3 {
+  font-size: 1.1rem; line-height: 1.4;
+  margin: 1.4em 0 0.5em; padding-bottom: 4px;
+  border-bottom: 2px solid #fde68a;
+}
+.post-body #post-content mark {
+  background: linear-gradient(transparent 62%, #fde68a 62%, #fde68a 96%, transparent 96%);
+  color: inherit; padding: 0 1px;
+}
+[data-theme="dark"] .post-body #post-content mark {
+  background: linear-gradient(transparent 62%, rgba(245,158,11,0.45) 62%, rgba(245,158,11,0.45) 96%, transparent 96%);
+}
