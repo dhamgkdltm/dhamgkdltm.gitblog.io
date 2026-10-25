@@ -4,5 +4,26 @@
     <title>루미라의 공간</title>
     <link>https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/</link>
     <description>루미라의 공간 새 글 소식</description>
+    <item>
+      <title>늙은 세포를 다시 젊게 만드는 유전자, SRSF1</title>
+      <link>https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/post.html?p=post-20261025-155700</link>
+      <guid isPermaLink="true">https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/post.html?p=post-20261025-155700</guid>
+      <pubDate>Sun, 25 Oct 2026 00:00:00 GMT</pubDate>
+      <description>노화를 되돌릴 수 있을까? 얼마 전 이 질문에 한 걸음 다가간 연구가 나왔습니다. 미국 하버드대 연구진이 'SRSF1'이라는 유전자를 찾아냈어요. 노화된 사람의 …</description>
+    </item>
+    <item>
+      <title>스와이프 테스트용 글</title>
+      <link>https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/post.html?p=test-swipe</link>
+      <guid isPermaLink="true">https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/post.html?p=test-swipe</guid>
+      <pubDate>Sat, 24 Oct 2026 00:00:00 GMT</pubDate>
+      <description>스와이프로 글 넘기기를 테스트하는 글입니다.</description>
+    </item>
+    <item>
+      <title>테스트글</title>
+      <link>https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/post.html?p=post-20261023-192220</link>
+      <guid isPermaLink="true">https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/post.html?p=post-20261023-192220</guid>
+      <pubDate>Fri, 23 Oct 2026 00:00:00 GMT</pubDate>
+      <description>테스트 글 입니다.</description>
+    </item>
   </channel>
 </rss>
