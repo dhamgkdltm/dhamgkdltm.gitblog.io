@@ -83,11 +83,8 @@ html, body {
   background: radial-gradient(circle at 38% 35%, #fff, #bae6fd 55%, #38bdf8);
   box-shadow: 0 0 16px rgba(125, 211, 252, .95), 0 0 34px rgba(56, 189, 248, .5);
 }
-#comet-tail {
-  position: absolute; left: 0; top: -3px; height: 6px; width: 60px;
-  transform-origin: 0 50%;
-  background: linear-gradient(90deg, rgba(186, 230, 253, .9), rgba(56, 189, 248, 0));
-  border-radius: 3px;
+#trail-svg {
+  position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none;
 }
 
 /* 가상 조이스틱 (스티어링 중 누른 지점에 표시) */

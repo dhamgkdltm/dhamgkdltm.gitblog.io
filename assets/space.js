@@ -4,8 +4,9 @@
 // 좌표는 계 단위로 하나다. 테마 위성은 따로 좌표를 갖지 않고 루미라의 계 안에서 공전한다.
 // 공전주기는 케플러식(주기 ∝ 반지름^1.5)으로, 바깥 궤도일수록 확실히 길다.
 // 방문자 = 화면 중심에 고정된 혜성.
-// 이동은 가상 조이스틱: 빈 곳을 누른 지점이 기준점, 끄는 방향으로 혜성이 이동한다.
-// 속도는 끈 거리에 비례한다. 떼면 멈춘다. 누른 지점에는 조이스틱이 표시된다.
+// 이동은 가상 조이스틱 + 물리엔진: 빈 곳을 누른 지점이 기준점, 끄는 방향이 목표 속도.
+// 속도는 목표를 향해 가속으로 다가가고, 손을 떼면 천천히 감속하며 미끄러지듯 멈춘다(관성).
+// 꼬리는 딱딱한 직선이 아니라, 혜성이 지나온 길을 따라 휘어지며 흐릿해지는 궤적이다.
 // 조회수는 읽기 전용 GET /count만 쓴다(/hit 호출 금지).
 const BASE = "/dhamgkdltm.gitblog.io";
 const API = "https://blog-counter.dhamgkdltm.workers.dev";
@@ -40,23 +41,54 @@ const readoutEl = document.getElementById("readout");
 const statusEl = document.getElementById("space-status");
 const hintEl = document.getElementById("hint");
 const popupEl = document.getElementById("popup");
-const tailEl = document.getElementById("comet-tail");
 const joyEl = document.getElementById("joystick");
 const joyKnob = document.getElementById("joy-knob");
+const trailSvg = document.getElementById("trail-svg");
 
 // 혜성 위치 (월드 내 px, 혜성 중심 기준). 시작 셀: 루미라 남쪽 5칸 (50,55).
 let posX = (CENTER + 0.5) * CELL;
 let posY = (55 + 0.5) * CELL;
-let vx = 0, vy = 0, tailAngle = Math.PI, hintHidden = false;
+// 물리 상태: 속도(px/초). 위치는 속도 적분으로만 움직인다.
+let vx = 0, vy = 0, hintHidden = false;
 // 가상 조이스틱: 누른 지점이 기준점, 끄는 방향으로 이동, 속도는 끈 거리 비례.
 let steering = false, steerId = null, anchorX = 0, anchorY = 0, curX = 0, curY = 0, lastT = 0;
 const satellites = []; // { el, radius(px), angle, speed(라디안/초) } — 루미라의 계 안에서 돈다
 
-function clampPos() {
-  const m = CELL / 2;
-  posX = Math.max(m, Math.min(WORLD * CELL - m, posX));
-  posY = Math.max(m, Math.min(WORLD * CELL - m, posY));
+// 궤적 꼬리: 지나온 길(월드 좌표)을 최신순으로 보관, 0.9초 뒤 사라진다
+const TRAIL_MAX = 24;
+const trailLines = [];
+for (let i = 0; i < TRAIL_MAX; i++) {
+  const ln = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  ln.setAttribute("stroke", "#bae6fd");
+  ln.setAttribute("stroke-linecap", "round");
+  ln.setAttribute("opacity", "0");
+  trailSvg.appendChild(ln);
 }
+const trailPts = []; // { x, y, t } 최신순
+let trailTime = 0;
+function updateTrail(dt) {
+  trailTime += dt;
+  const last = trailPts[0];
+  if (!last || Math.hypot(posX - last.x, posY - last.y) > 8) {
+    trailPts.unshift({ x: posX, y: posY, t: trailTime });
+    if (trailPts.length > 60) trailPts.pop();
+  }
+  while (trailPts.length && trailTime - trailPts[trailPts.length - 1].t > 0.9) trailPts.pop();
+  for (let i = 0; i < TRAIL_MAX; i++) {
+    const ln = trailLines[i];
+    if (i + 1 < trailPts.length) {
+      const a = trailPts[i], b = trailPts[i + 1];
+      ln.setAttribute("x1", a.x); ln.setAttribute("y1", a.y);
+      ln.setAttribute("x2", b.x); ln.setAttribute("y2", b.y);
+      const f = 1 - i / TRAIL_MAX;
+      ln.setAttribute("stroke-width", (1 + 11 * f).toFixed(1));
+      ln.setAttribute("opacity", (0.85 * f).toFixed(2));
+    } else {
+      ln.setAttribute("opacity", "0");
+    }
+  }
+}
+
 function currentCell() {
   return { col: Math.floor(posX / CELL), row: Math.floor(posY / CELL) };
 }
@@ -76,33 +108,41 @@ function render() {
     rel = `루미라 기준 ${arrow} ${Math.max(Math.abs(dx), Math.abs(dy))}칸`;
   }
   readoutEl.textContent = `${rel} · 현재 셀 (${col}, ${row})`;
-  const speed = Math.hypot(vx, vy);
-  if (speed > 0.4) tailAngle = Math.atan2(vy, vx) + Math.PI;
-  const len = 60 + Math.min(170, speed * 0.35);
-  tailEl.style.width = `${len}px`;
-  tailEl.style.transform = `rotate(${tailAngle}rad)`;
 }
 function loop(t) {
   const dt = Math.min(0.05, lastT ? (t - lastT) / 1000 : 0.016);
   lastT = t;
+  // 목표 속도: 조이스틱 방향 × 끈 거리 비례 속도 (최대 620px/초 ≈ 8.6셀/초)
+  let tvx = 0, tvy = 0;
   if (steering) {
-    // 가상 조이스틱: 방향 = 누른 지점 → 끈 지점, 속도 = 끈 거리 비례 (최대 620px/초 ≈ 8.6셀/초)
     const dx = curX - anchorX;
     const dy = curY - anchorY;
     const dist = Math.hypot(dx, dy);
     if (dist > 24) {
       const speed = Math.min(dist * 2.2, 620);
-      const step = speed * dt;
-      posX += (dx / dist) * step;
-      posY += (dy / dist) * step;
-      clampPos();
-      vx = vx * 0.7 + (dx / dist) * speed * 0.3;
-      vy = vy * 0.7 + (dy / dist) * speed * 0.3;
-    } else { vx *= 0.85; vy *= 0.85; }
+      tvx = (dx / dist) * speed; tvy = (dy / dist) * speed;
+    }
     // 조이스틱 노브: 끈 방향으로, 최대 56px까지
     const cl = Math.min(dist, 56);
     joyKnob.style.transform = dist > 0 ? `translate(${(dx / dist) * cl}px, ${(dy / dist) * cl}px)` : "";
-  } else { vx *= 0.88; vy *= 0.88; }
+  }
+  // 물리: 목표 속도를 향해 가속(조종 중엔 빠르게, 손 뗀 뒤엔 천천히 감속 = 관성)
+  const k = steering ? 5.0 : 1.3;
+  const a = 1 - Math.exp(-k * dt);
+  vx += (tvx - vx) * a;
+  vy += (tvy - vy) * a;
+  if (!steering && Math.hypot(vx, vy) < 6) { vx = 0; vy = 0; }
+  const sp = Math.hypot(vx, vy);
+  if (sp > 640) { vx = vx / sp * 640; vy = vy / sp * 640; }
+  posX += vx * dt;
+  posY += vy * dt;
+  // 월드 끝에 닿으면 그 방향 속도는 0 (벽에 부딪혀 멈춤)
+  const m = CELL / 2, maxX = WORLD * CELL - m, maxY = WORLD * CELL - m;
+  if (posX < m) { posX = m; if (vx < 0) vx = 0; }
+  if (posX > maxX) { posX = maxX; if (vx > 0) vx = 0; }
+  if (posY < m) { posY = m; if (vy < 0) vy = 0; }
+  if (posY > maxY) { posY = maxY; if (vy > 0) vy = 0; }
+  updateTrail(dt);
   // 테마 위성 공전: 루미라의 계 안에서, 루미라 중심으로 돈다 (계 = 하나의 셀)
   const cx = (CENTER + 0.5) * CELL, cy = (CENTER + 0.5) * CELL;
   for (const s of satellites) {
