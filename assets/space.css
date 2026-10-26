@@ -90,6 +90,19 @@ html, body {
   border-radius: 3px;
 }
 
+/* 가상 조이스틱 (스티어링 중 누른 지점에 표시) */
+#joystick {
+  position: fixed; width: 112px; height: 112px; z-index: 8; pointer-events: none;
+  border: 1.5px solid rgba(255, 255, 255, .3); border-radius: 50%;
+  background: rgba(255, 255, 255, .06);
+}
+#joy-knob {
+  position: absolute; left: 50%; top: 50%; width: 48px; height: 48px;
+  margin: -24px 0 0 -24px; border-radius: 50%;
+  background: rgba(186, 230, 253, .9);
+  box-shadow: 0 0 16px rgba(125, 211, 252, .9);
+}
+
 /* HUD */
 #hud {
   position: fixed; left: 12px; right: 12px; top: 12px; z-index: 10;

@@ -2,10 +2,10 @@
 // 셀 시스템: 100x100 셀, 셀 한 칸 = 면적이 있는 공간(화면 72px).
 // 중심 셀(50,50) = 루미라의 계. 루미라의 계(태양계처럼)는 하나의 셀이고,
 // 좌표는 계 단위로 하나다. 테마 위성은 따로 좌표를 갖지 않고 루미라의 계 안에서 공전한다.
+// 공전주기는 케플러식(주기 ∝ 반지름^1.5)으로, 바깥 궤도일수록 확실히 길다.
 // 방문자 = 화면 중심에 고정된 혜성.
-// 이동은 드래그가 아니다. 화면을 누르고 있으면, 화면 중심에서 누른 지점을 향한 방향으로
-// 혜성이 이동한다. 속도는 누른 위치와 화면 중심 사이의 거리에 비례한다. 떼면 멈춘다.
-// 꼬리는 이동 방향의 반대로 길게 흐른다.
+// 이동은 가상 조이스틱: 빈 곳을 누른 지점이 기준점, 끄는 방향으로 혜성이 이동한다.
+// 속도는 끈 거리에 비례한다. 떼면 멈춘다. 누른 지점에는 조이스틱이 표시된다.
 // 조회수는 읽기 전용 GET /count만 쓴다(/hit 호출 금지).
 const BASE = "/dhamgkdltm.gitblog.io";
 const API = "https://blog-counter.dhamgkdltm.workers.dev";
@@ -41,13 +41,15 @@ const statusEl = document.getElementById("space-status");
 const hintEl = document.getElementById("hint");
 const popupEl = document.getElementById("popup");
 const tailEl = document.getElementById("comet-tail");
+const joyEl = document.getElementById("joystick");
+const joyKnob = document.getElementById("joy-knob");
 
 // 혜성 위치 (월드 내 px, 혜성 중심 기준). 시작 셀: 루미라 남쪽 5칸 (50,55).
 let posX = (CENTER + 0.5) * CELL;
 let posY = (55 + 0.5) * CELL;
 let vx = 0, vy = 0, tailAngle = Math.PI, hintHidden = false;
-// 터치 스티어링: 누르고 있는 지점 방향으로 이동, 속도는 화면 중심과의 거리 비례.
-let steering = false, steerId = null, steerX = 0, steerY = 0, lastT = 0;
+// 가상 조이스틱: 누른 지점이 기준점, 끄는 방향으로 이동, 속도는 끈 거리 비례.
+let steering = false, steerId = null, anchorX = 0, anchorY = 0, curX = 0, curY = 0, lastT = 0;
 const satellites = []; // { el, radius(px), angle, speed(라디안/초) } — 루미라의 계 안에서 돈다
 
 function clampPos() {
@@ -84,9 +86,9 @@ function loop(t) {
   const dt = Math.min(0.05, lastT ? (t - lastT) / 1000 : 0.016);
   lastT = t;
   if (steering) {
-    // 방향 = 화면 중심 → 누른 지점, 속도 = 중심과의 거리 비례 (최대 620px/초 ≈ 8.6셀/초)
-    const dx = steerX - window.innerWidth / 2;
-    const dy = steerY - window.innerHeight / 2;
+    // 가상 조이스틱: 방향 = 누른 지점 → 끈 지점, 속도 = 끈 거리 비례 (최대 620px/초 ≈ 8.6셀/초)
+    const dx = curX - anchorX;
+    const dy = curY - anchorY;
     const dist = Math.hypot(dx, dy);
     if (dist > 24) {
       const speed = Math.min(dist * 2.2, 620);
@@ -97,6 +99,9 @@ function loop(t) {
       vx = vx * 0.7 + (dx / dist) * speed * 0.3;
       vy = vy * 0.7 + (dy / dist) * speed * 0.3;
     } else { vx *= 0.85; vy *= 0.85; }
+    // 조이스틱 노브: 끈 방향으로, 최대 56px까지
+    const cl = Math.min(dist, 56);
+    joyKnob.style.transform = dist > 0 ? `translate(${(dx / dist) * cl}px, ${(dy / dist) * cl}px)` : "";
   } else { vx *= 0.88; vy *= 0.88; }
   // 테마 위성 공전: 루미라의 계 안에서, 루미라 중심으로 돈다 (계 = 하나의 셀)
   const cx = (CENTER + 0.5) * CELL, cy = (CENTER + 0.5) * CELL;
@@ -111,10 +116,16 @@ function loop(t) {
   requestAnimationFrame(loop);
 }
 
-// 스티어링: 빈 공간을 누른 채로 있으면 그 방향으로 이동. 노드를 누른 건 클릭(팝업)용.
+// 가상 조이스틱: 빈 공간을 누른 지점이 기준점, 끄는 방향으로 이동. 노드를 누른 건 클릭(팝업)용.
 viewport.addEventListener("pointerdown", (e) => {
+  if (steering) return;
   if (e.target.closest && e.target.closest(".node")) return;
-  steering = true; steerId = e.pointerId; steerX = e.clientX; steerY = e.clientY;
+  steering = true; steerId = e.pointerId;
+  anchorX = curX = e.clientX; anchorY = curY = e.clientY;
+  joyEl.style.left = `${anchorX - 56}px`;
+  joyEl.style.top = `${anchorY - 56}px`;
+  joyKnob.style.transform = "";
+  joyEl.hidden = false;
   closePopup();
   if (!hintHidden) { hintEl.classList.add("gone"); hintHidden = true; }
   if (viewport.setPointerCapture) {
@@ -123,11 +134,12 @@ viewport.addEventListener("pointerdown", (e) => {
 });
 viewport.addEventListener("pointermove", (e) => {
   if (!steering || e.pointerId !== steerId) return;
-  steerX = e.clientX; steerY = e.clientY;
+  curX = e.clientX; curY = e.clientY;
 });
 function endSteer(e) {
   if (e.pointerId !== steerId) return;
   steering = false; steerId = null;
+  joyEl.hidden = true;
 }
 viewport.addEventListener("pointerup", endSteer);
 viewport.addEventListener("pointercancel", endSteer);
@@ -225,7 +237,7 @@ async function main() {
     // 공전 궤도: 루미라의 계 안에서, 안쪽부터 바깥쪽으로 (위성은 따로 좌표 없음)
     const radius = 90 + i * 34;
     const angle = i * 2.399963;
-    const period = 36 + radius * 0.22; // 초, 바깥 궤도일수록 느리게
+    const period = 0.06 * Math.pow(radius, 1.5); // 초, 케플러식(주기 ∝ 반지름^1.5) — 바깥쪽일수록 확실히 느리게
     const px = cx + Math.cos(angle) * radius;
     const py = cy + Math.sin(angle) * radius;
     const btn = document.createElement("button");
