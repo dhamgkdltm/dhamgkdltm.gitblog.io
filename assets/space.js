@@ -1,8 +1,10 @@
 // 테스트 우주 (space.html 전용)
 // 셀 시스템: 100x100 셀, 셀 한 칸 = 면적이 있는 공간(화면 72px).
 // 중심 셀(50,50) = 루미라, 위성 = 글 테마(카테고리), 방문자 = 화면 중심에 고정된 혜성.
-// 드래그한 방향으로 혜성이 이동하고, 세상이 반대로 움직여 혜성이 항상 중심에 머문다.
-// 꼬리는 이동 방향의 반대로 흐른다. 조회수는 읽기 전용 GET /count만 쓴다(/hit 호출 금지).
+// 이동은 드래그가 아니다. 화면을 누르고 있으면, 화면 중심에서 누른 지점을 향한 방향으로
+// 혜성이 이동한다. 속도는 누른 위치와 화면 중심 사이의 거리에 비례한다. 떼면 멈춘다.
+// 꼬리는 이동 방향의 반대로 길게 흐른다. 테마 위성은 루미라를 기준으로 공전한다.
+// 조회수는 읽기 전용 GET /count만 쓴다(/hit 호출 금지).
 const BASE = "/dhamgkdltm.gitblog.io";
 const API = "https://blog-counter.dhamgkdltm.workers.dev";
 const CELL = 72, WORLD = 100, CENTER = 50;
@@ -42,7 +44,9 @@ const tailEl = document.getElementById("comet-tail");
 let posX = (CENTER + 0.5) * CELL;
 let posY = (55 + 0.5) * CELL;
 let vx = 0, vy = 0, tailAngle = Math.PI, hintHidden = false;
-let dragging = false, captured = false, lastX = 0, lastY = 0, moved = 0;
+// 터치 스티어링: 누르고 있는 지점 방향으로 이동, 속도는 화면 중심과의 거리 비례.
+let steering = false, steerId = null, steerX = 0, steerY = 0, lastT = 0;
+const satellites = []; // { el, radius(셀), angle, speed(라디안/초) }
 
 function clampPos() {
   const m = CELL / 2;
@@ -70,44 +74,60 @@ function render() {
   readoutEl.textContent = `${rel} · 현재 셀 (${col}, ${row})`;
   const speed = Math.hypot(vx, vy);
   if (speed > 0.4) tailAngle = Math.atan2(vy, vx) + Math.PI;
-  const len = 26 + Math.min(110, speed * 2.4);
+  const len = 60 + Math.min(170, speed * 0.35);
   tailEl.style.width = `${len}px`;
   tailEl.style.transform = `rotate(${tailAngle}rad)`;
 }
-function loop() {
-  if (!dragging) { vx *= 0.88; vy *= 0.88; }
+function loop(t) {
+  const dt = Math.min(0.05, lastT ? (t - lastT) / 1000 : 0.016);
+  lastT = t;
+  if (steering) {
+    // 방향 = 화면 중심 → 누른 지점, 속도 = 중심과의 거리 비례 (최대 620px/초 ≈ 8.6셀/초)
+    const dx = steerX - window.innerWidth / 2;
+    const dy = steerY - window.innerHeight / 2;
+    const dist = Math.hypot(dx, dy);
+    if (dist > 24) {
+      const speed = Math.min(dist * 2.2, 620);
+      const step = speed * dt;
+      posX += (dx / dist) * step;
+      posY += (dy / dist) * step;
+      clampPos();
+      vx = vx * 0.7 + (dx / dist) * speed * 0.3;
+      vy = vy * 0.7 + (dy / dist) * speed * 0.3;
+    } else { vx *= 0.85; vy *= 0.85; }
+  } else { vx *= 0.88; vy *= 0.88; }
+  // 테마 위성 공전: 루미라 중심 기준 원궤도
+  for (const s of satellites) {
+    s.angle += s.speed * dt;
+    const px = (CENTER + 0.5) * CELL + Math.cos(s.angle) * s.radius * CELL;
+    const py = (CENTER + 0.5) * CELL + Math.sin(s.angle) * s.radius * CELL;
+    s.el.style.left = `${px - CELL / 2}px`;
+    s.el.style.top = `${py - CELL / 2}px`;
+  }
   render();
   requestAnimationFrame(loop);
 }
 
+// 스티어링: 빈 공간을 누른 채로 있으면 그 방향으로 이동. 노드를 누른 건 클릭(팝업)용.
 viewport.addEventListener("pointerdown", (e) => {
-  lastX = e.clientX; lastY = e.clientY; moved = 0; dragging = false; captured = false;
+  if (e.target.closest && e.target.closest(".node")) return;
+  steering = true; steerId = e.pointerId; steerX = e.clientX; steerY = e.clientY;
+  closePopup();
+  if (!hintHidden) { hintEl.classList.add("gone"); hintHidden = true; }
+  if (viewport.setPointerCapture) {
+    try { viewport.setPointerCapture(e.pointerId); } catch { /* 무시 */ }
+  }
 });
 viewport.addEventListener("pointermove", (e) => {
-  if (e.buttons === 0 && lastX === 0 && lastY === 0) return;
-  const dx = e.clientX - lastX, dy = e.clientY - lastY;
-  lastX = e.clientX; lastY = e.clientY;
-  if (!dragging && Math.hypot(dx, dy) === 0) return;
-  moved += Math.hypot(dx, dy);
-  if (!dragging && moved > 6) {
-    dragging = true;
-    viewport.classList.add("dragging");
-    if (!captured && viewport.setPointerCapture) {
-      try { viewport.setPointerCapture(e.pointerId); captured = true; } catch { /* 무시 */ }
-    }
-  }
-  if (!dragging) return;
-  // 드래그한 방향으로 혜성이 이동 → 세상은 반대로 움직여 혜성이 중심에 머무른다.
-  posX += dx; posY += dy; clampPos();
-  vx = vx * 0.6 + dx * 0.4; vy = vy * 0.6 + dy * 0.4;
-  if (!hintHidden) { hintEl.classList.add("gone"); hintHidden = true; }
+  if (!steering || e.pointerId !== steerId) return;
+  steerX = e.clientX; steerY = e.clientY;
 });
-function endDrag() {
-  dragging = false; viewport.classList.remove("dragging");
-  lastX = 0; lastY = 0;
+function endSteer(e) {
+  if (e.pointerId !== steerId) return;
+  steering = false; steerId = null;
 }
-viewport.addEventListener("pointerup", endDrag);
-viewport.addEventListener("pointercancel", endDrag);
+viewport.addEventListener("pointerup", endSteer);
+viewport.addEventListener("pointercancel", endSteer);
 
 function closePopup() { popupEl.hidden = true; }
 document.getElementById("popup-close").addEventListener("click", closePopup);
@@ -230,11 +250,16 @@ async function main() {
         `<div class="popup-post"><a href="${BASE}/?cat=${encodeURIComponent(cat)}">이 테마 글 목록 전체 보기 →</a></div>`;
       openPopup(cat, meta, body);
     });
+    // 공전 파라미터: 배치된 셀에서 중심까지의 거리 = 궤도 반지름, 그 방향 = 시작 각도
+    const radius = Math.hypot(col - CENTER, row - CENTER);
+    const angle = Math.atan2(row - CENTER, col - CENTER);
+    const period = 40 + radius * 6; // 초, 큰 궤도일수록 느리게
+    satellites.push({ el: btn, radius, angle, speed: (Math.PI * 2) / period });
     nodesEl.appendChild(btn);
   });
 
   statusEl.textContent = "";
   render();
-  loop();
+  requestAnimationFrame(loop);
 }
 main();
