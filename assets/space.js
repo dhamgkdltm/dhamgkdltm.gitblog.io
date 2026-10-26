@@ -1,9 +1,11 @@
 // 테스트 우주 (space.html 전용)
 // 셀 시스템: 100x100 셀, 셀 한 칸 = 면적이 있는 공간(화면 72px).
-// 중심 셀(50,50) = 루미라, 위성 = 글 테마(카테고리), 방문자 = 화면 중심에 고정된 혜성.
+// 중심 셀(50,50) = 루미라의 계. 루미라의 계(태양계처럼)는 하나의 셀이고,
+// 좌표는 계 단위로 하나다. 테마 위성은 따로 좌표를 갖지 않고 루미라의 계 안에서 공전한다.
+// 방문자 = 화면 중심에 고정된 혜성.
 // 이동은 드래그가 아니다. 화면을 누르고 있으면, 화면 중심에서 누른 지점을 향한 방향으로
 // 혜성이 이동한다. 속도는 누른 위치와 화면 중심 사이의 거리에 비례한다. 떼면 멈춘다.
-// 꼬리는 이동 방향의 반대로 길게 흐른다. 테마 위성은 루미라를 기준으로 공전한다.
+// 꼬리는 이동 방향의 반대로 길게 흐른다.
 // 조회수는 읽기 전용 GET /count만 쓴다(/hit 호출 금지).
 const BASE = "/dhamgkdltm.gitblog.io";
 const API = "https://blog-counter.dhamgkdltm.workers.dev";
@@ -46,7 +48,7 @@ let posY = (55 + 0.5) * CELL;
 let vx = 0, vy = 0, tailAngle = Math.PI, hintHidden = false;
 // 터치 스티어링: 누르고 있는 지점 방향으로 이동, 속도는 화면 중심과의 거리 비례.
 let steering = false, steerId = null, steerX = 0, steerY = 0, lastT = 0;
-const satellites = []; // { el, radius(셀), angle, speed(라디안/초) }
+const satellites = []; // { el, radius(px), angle, speed(라디안/초) } — 루미라의 계 안에서 돈다
 
 function clampPos() {
   const m = CELL / 2;
@@ -96,11 +98,12 @@ function loop(t) {
       vy = vy * 0.7 + (dy / dist) * speed * 0.3;
     } else { vx *= 0.85; vy *= 0.85; }
   } else { vx *= 0.88; vy *= 0.88; }
-  // 테마 위성 공전: 루미라 중심 기준 원궤도
+  // 테마 위성 공전: 루미라의 계 안에서, 루미라 중심으로 돈다 (계 = 하나의 셀)
+  const cx = (CENTER + 0.5) * CELL, cy = (CENTER + 0.5) * CELL;
   for (const s of satellites) {
     s.angle += s.speed * dt;
-    const px = (CENTER + 0.5) * CELL + Math.cos(s.angle) * s.radius * CELL;
-    const py = (CENTER + 0.5) * CELL + Math.sin(s.angle) * s.radius * CELL;
+    const px = cx + Math.cos(s.angle) * s.radius;
+    const py = cy + Math.sin(s.angle) * s.radius;
     s.el.style.left = `${px - CELL / 2}px`;
     s.el.style.top = `${py - CELL / 2}px`;
   }
@@ -153,26 +156,6 @@ function openPopup(title, meta, bodyHtml) {
   starsEl.appendChild(frag);
 })();
 
-// 테마 위성 배치: 황금각 나선으로 중심 바깥쪽에 셀 단위로 퍼뜨리기 (셀 중복 없음)
-function placeCells(n) {
-  const taken = new Set([`${CENTER},${CENTER}`]);
-  const out = [];
-  const GOLDEN = 2.399963;
-  for (let i = 0; i < n; i++) {
-    let radius = 9 + i * 2.4, col = CENTER, row = CENTER;
-    for (let t = 0; t < 30; t++) {
-      const a = i * GOLDEN;
-      col = Math.max(2, Math.min(97, Math.round(CENTER + Math.cos(a) * radius)));
-      row = Math.max(2, Math.min(97, Math.round(CENTER + Math.sin(a) * radius)));
-      if (!taken.has(`${col},${row}`)) break;
-      radius += 1.5;
-    }
-    taken.add(`${col},${row}`);
-    out.push({ col, row });
-  }
-  return out;
-}
-
 async function main() {
   statusEl.textContent = "글을 불러오는 중…";
   let posts;
@@ -204,7 +187,16 @@ async function main() {
     groups.get(cat).push(p);
   }
   const cats = [...groups.keys()];
-  const cells = placeCells(cats.length);
+  const cx = (CENTER + 0.5) * CELL, cy = (CENTER + 0.5) * CELL;
+
+  // 루미라의 계 영역: 위성들이 도는 범위 전체를 하나의 계(하나의 셀)로 표시
+  const maxOrbit = cats.length > 0 ? 90 + (cats.length - 1) * 34 : 0;
+  const zoneDia = 2 * (maxOrbit + 80);
+  const zone = document.createElement("div");
+  zone.className = "system-zone";
+  zone.style.cssText = `left:${cx - zoneDia / 2}px;top:${cy - zoneDia / 2}px;width:${zoneDia}px;height:${zoneDia}px;`;
+  zone.innerHTML = `<span class="system-zone-label">루미라의 계</span>`;
+  nodesEl.appendChild(zone);
 
   // 중심: 루미라 프로필 노드
   const centerBtn = document.createElement("button");
@@ -230,11 +222,16 @@ async function main() {
     const tier = viewsOk ? (metric >= 50 ? "splendid" : metric >= 10 ? "glow" : "") :
       (metric >= 4 ? "splendid" : metric >= 2 ? "glow" : "");
     const color = catColor(cat);
-    const { col, row } = cells[i];
+    // 공전 궤도: 루미라의 계 안에서, 안쪽부터 바깥쪽으로 (위성은 따로 좌표 없음)
+    const radius = 90 + i * 34;
+    const angle = i * 2.399963;
+    const period = 36 + radius * 0.22; // 초, 바깥 궤도일수록 느리게
+    const px = cx + Math.cos(angle) * radius;
+    const py = cy + Math.sin(angle) * radius;
     const btn = document.createElement("button");
     btn.className = `node${tier === "splendid" ? " node-splendid" : ""}`;
     btn.type = "button";
-    btn.style.cssText = `left:${col * CELL}px;top:${row * CELL}px;--glow:${color};`;
+    btn.style.cssText = `left:${px - CELL / 2}px;top:${py - CELL / 2}px;--glow:${color};`;
     btn.setAttribute("aria-label", `${cat} 테마, 글 ${list.length}개`);
     btn.innerHTML = `<span class="orb" style="width:${size}px;height:${size}px;background:radial-gradient(circle at 38% 35%, #ffffff, ${color} 55%, ${color});"></span>` +
       `<span class="node-label">${escapeHtml(cat)}</span>` +
@@ -250,10 +247,6 @@ async function main() {
         `<div class="popup-post"><a href="${BASE}/?cat=${encodeURIComponent(cat)}">이 테마 글 목록 전체 보기 →</a></div>`;
       openPopup(cat, meta, body);
     });
-    // 공전 파라미터: 배치된 셀에서 중심까지의 거리 = 궤도 반지름, 그 방향 = 시작 각도
-    const radius = Math.hypot(col - CENTER, row - CENTER);
-    const angle = Math.atan2(row - CENTER, col - CENTER);
-    const period = 40 + radius * 6; // 초, 큰 궤도일수록 느리게
     satellites.push({ el: btn, radius, angle, speed: (Math.PI * 2) / period });
     nodesEl.appendChild(btn);
   });

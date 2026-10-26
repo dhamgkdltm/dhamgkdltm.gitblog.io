@@ -29,6 +29,17 @@ html, body {
   position: absolute; border-radius: 50%; background: #fff; opacity: .5;
 }
 
+/* 루미라의 계 영역: 위성 궤도 전체를 하나의 계(하나의 셀)로 표시 */
+.system-zone {
+  position: absolute; border-radius: 50%; pointer-events: none;
+  border: 1.5px dashed rgba(251, 191, 36, .35);
+  background: radial-gradient(circle, rgba(251, 191, 36, .07), transparent 70%);
+}
+.system-zone-label {
+  position: absolute; left: 50%; top: 10px; transform: translateX(-50%);
+  font-size: 11px; opacity: .7; text-shadow: 0 1px 6px #000; white-space: nowrap;
+}
+
 /* 노드(셀 안에 배치, 셀 한 칸 = 72px 영역) */
 .node {
   position: absolute; width: 72px; height: 72px;
