@@ -1,0 +1,137 @@
+/* 테스트 우주 (space.html 전용, 다크 스페이스 테마) */
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0; height: 100%; overflow: hidden;
+  background: #04040f;
+  font-family: "Pretendard Variable", Pretendard, -apple-system, sans-serif;
+  color: #eef2ff; word-break: keep-all;
+}
+
+#space-viewport {
+  position: fixed; inset: 0; overflow: hidden; touch-action: none; cursor: grab;
+  background:
+    radial-gradient(1200px 800px at 20% 15%, rgba(56, 68, 168, .35), transparent 60%),
+    radial-gradient(1000px 700px at 85% 80%, rgba(120, 40, 120, .28), transparent 60%),
+    #04040f;
+}
+#space-viewport.dragging { cursor: grabbing; }
+
+/* 100x100 셀 공간: 셀 한 칸 = 72px, 격자로 셀 경계를 은은하게 표시 */
+#world {
+  position: absolute; left: 0; top: 0; width: 7200px; height: 7200px;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, .055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, .055) 1px, transparent 1px);
+  background-size: 72px 72px;
+  will-change: transform;
+}
+.star {
+  position: absolute; border-radius: 50%; background: #fff; opacity: .5;
+}
+
+/* 노드(셀 안에 배치, 셀 한 칸 = 72px 영역) */
+.node {
+  position: absolute; width: 72px; height: 72px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: none; border: none; padding: 0; cursor: pointer; color: inherit;
+}
+.orb {
+  border-radius: 50%; flex: none;
+  box-shadow: 0 0 18px var(--glow, rgba(255, 255, 255, .5)), 0 0 42px var(--glow, rgba(255, 255, 255, .25));
+}
+.node-label {
+  margin-top: 4px; font-size: 12px; font-weight: 700; text-shadow: 0 1px 6px #000;
+  white-space: nowrap;
+}
+.node-sub { font-size: 11px; opacity: .75; text-shadow: 0 1px 6px #000; white-space: nowrap; }
+.node-splendid .orb { animation: twinkle 2.2s ease-in-out infinite; }
+.node-splendid::after {
+  content: ""; position: absolute; width: 92px; height: 92px; border-radius: 50%;
+  border: 1.5px dashed var(--glow, rgba(255, 255, 255, .6)); animation: spin 14s linear infinite;
+}
+@keyframes twinkle { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.35); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* 중심: 루미라 프로필 */
+.node-center .orb {
+  width: 64px !important; height: 64px !important;
+  background: radial-gradient(circle at 38% 35%, #ffec8a, #ffb02e 55%, #b45309);
+  box-shadow: 0 0 26px rgba(255, 176, 46, .9), 0 0 70px rgba(255, 176, 46, .45);
+}
+.node-center .node-label { font-size: 15px; }
+
+/* 방문자 혜성: 항상 화면 중심에 고정 */
+#cell-marker {
+  position: fixed; left: 50%; top: 50%; width: 72px; height: 72px;
+  transform: translate(-50%, -50%); pointer-events: none; z-index: 5;
+  border: 1.5px dashed rgba(251, 191, 36, .55); border-radius: 10px;
+}
+#comet { position: fixed; left: 50%; top: 50%; width: 0; height: 0; z-index: 6; pointer-events: none; }
+#comet-head {
+  position: absolute; left: -9px; top: -9px; width: 18px; height: 18px; border-radius: 50%;
+  background: radial-gradient(circle at 38% 35%, #fff, #bae6fd 55%, #38bdf8);
+  box-shadow: 0 0 16px rgba(125, 211, 252, .95), 0 0 34px rgba(56, 189, 248, .5);
+}
+#comet-tail {
+  position: absolute; left: 0; top: -3px; height: 6px; width: 26px;
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, rgba(186, 230, 253, .9), rgba(56, 189, 248, 0));
+  border-radius: 3px;
+}
+
+/* HUD */
+#hud {
+  position: fixed; left: 12px; right: 12px; top: 12px; z-index: 10;
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between;
+}
+.hud-left { display: flex; gap: 8px; align-items: center; }
+.hud-home, .hud-title, .hud-readout {
+  background: rgba(8, 10, 30, .72); border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 999px; padding: 7px 13px; backdrop-filter: blur(6px);
+}
+.hud-home { color: #eef2ff; text-decoration: none; font-weight: 700; font-size: 13px; }
+.hud-title { font-weight: 800; font-size: 14px; }
+.hud-badge {
+  font-size: 10px; background: #f59e0b; color: #1a1000; border-radius: 4px;
+  padding: 2px 5px; margin-left: 4px; vertical-align: 2px;
+}
+.hud-readout { font-size: 13px; }
+#hint {
+  position: fixed; left: 50%; bottom: 84px; transform: translateX(-50%); z-index: 10;
+  margin: 0; padding: 8px 14px; border-radius: 999px; font-size: 13px;
+  background: rgba(8, 10, 30, .72); border: 1px solid rgba(255, 255, 255, .14);
+  transition: opacity 1s; white-space: nowrap;
+}
+#hint.gone { opacity: 0; }
+#space-status {
+  position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 20;
+  margin: 0; padding: 12px 18px; border-radius: 12px; font-size: 14px;
+  background: rgba(8, 10, 30, .85); border: 1px solid rgba(255, 255, 255, .16);
+}
+#space-status:empty { display: none; }
+
+/* 팝업: 글 목록 */
+#popup {
+  position: fixed; z-index: 30; left: 12px; right: 12px; bottom: 12px;
+  max-height: 62vh; overflow-y: auto;
+  background: rgba(10, 12, 34, .94); border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 18px; padding: 20px 18px 18px; backdrop-filter: blur(8px);
+}
+#popup[hidden] { display: none; }
+@media (min-width: 700px) {
+  #popup { left: auto; right: 20px; bottom: 20px; width: 380px; max-height: 74vh; }
+}
+#popup-close {
+  position: absolute; right: 12px; top: 10px; width: 30px; height: 30px;
+  border-radius: 50%; border: 1px solid rgba(255, 255, 255, .2); background: transparent;
+  color: #fff; font-size: 14px; cursor: pointer;
+}
+#popup-title { margin: 0 30px 4px 0; font-size: 19px; }
+#popup-meta { margin: 0 0 12px; font-size: 13px; opacity: .8; }
+#popup-body a { color: #fcd34d; }
+.popup-post { border-top: 1px solid rgba(255, 255, 255, .12); padding: 10px 0; }
+.popup-post a { text-decoration: none; font-weight: 700; font-size: 15px; color: #fff; }
+.popup-post .popup-date { font-size: 12px; opacity: .7; margin-left: 6px; }
+.popup-post p { margin: 4px 0 0; font-size: 13px; opacity: .85; line-height: 1.5; }
+.popup-profile { line-height: 1.7; font-size: 14px; }
+.popup-profile a { font-weight: 700; }
