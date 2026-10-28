@@ -1,5 +1,19 @@
 [
   {
+    "slug": "post-20261028-190943",
+    "title": "혼자서는 알 수 없는 것들 — 왜 우리는 대화하는가",
+    "date": "2026-10-28",
+    "updated": "2026-10-28",
+    "excerpt": "참고: 바흐친 대화주의 정리, 가다머 해석학 SEP, 아렌트 SEP 혼자서는 자기 머릿속 지도밖에 없습니다. 세상에 대한 의문을 혼자 오래 붙들고 있어도, 결국 …",
+    "published": true,
+    "category": "철학",
+    "tags": [
+      "대화",
+      "타인"
+    ],
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1793182168076-ibl3lq.jpg"
+  },
+  {
     "slug": "post-20261026-071408",
     "title": "자연의 발명품 — 동물에게서 배운 기술",
     "date": "2026-10-26",
@@ -14,6 +28,17 @@
     "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1792966433636-uuu4j8.jpg"
   },
   {
+    "slug": "post-20261025-232948",
+    "title": "문이 없는 방, 죽은 세 사람이 만든 지옥",
+    "date": "2026-10-25",
+    "updated": "2026-10-25",
+    "excerpt": "원문 참고: 불도, 고문 도구도 없는 방이 있다. 사르트르의 에서 죽은 세 사람은 그 방에 영원히 갇힌다. 지옥이 무섭지 않은 이유는, 고통이 바깥에서 오지 않기…",
+    "published": true,
+    "category": "철학",
+    "tags": [],
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1792938548616-f3ry7w.jpg"
+  },
+  {
     "slug": "post-20261025-155700",
     "title": "늙은 세포를 다시 젊게 만드는 유전자, SRSF1",
     "date": "2026-10-25",
@@ -26,16 +51,5 @@
       "유전자"
     ],
     "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1792910645984-ncv9ao.jpg"
-  },
-  {
-    "slug": "post-20261025-232948",
-    "title": "문이 없는 방, 죽은 세 사람이 만든 지옥",
-    "date": "2026-10-25",
-    "updated": "2026-10-25",
-    "excerpt": "원문 참고: 불도, 고문 도구도 없는 방이 있다. 사르트르의 에서 죽은 세 사람은 그 방에 영원히 갇힌다. 지옥이 무섭지 않은 이유는, 고통이 바깥에서 오지 않기…",
-    "published": true,
-    "category": "철학",
-    "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1792938548616-f3ry7w.jpg"
   }
 ]
