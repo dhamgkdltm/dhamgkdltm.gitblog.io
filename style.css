@@ -478,3 +478,47 @@ main.swipe-enter-from-left.swipe-enter-active {
   background: none; border: 1px solid var(--border); border-radius: 8px;
   padding: 4px 8px; font-size: 0.85rem; color: var(--muted); cursor: pointer;
 }
+
+/* ── 읽기 진행바 (transform만 사용: 레이아웃·페인트 없음) ── */
+.reading-progress {
+  position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 70;
+  background: transparent; pointer-events: none;
+}
+.reading-progress-bar {
+  height: 100%; width: 100%; background: #f59e0b;
+  transform: scaleX(0); transform-origin: left center; will-change: transform;
+}
+
+/* ── 글 목차 (소제목 자동 생성, 접기 가능) ───────── */
+.toc {
+  background: var(--soft); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 12px 18px; margin: 0 0 26px;
+}
+.toc summary {
+  font-weight: 800; font-size: 15.5px; cursor: pointer; list-style: none;
+  display: flex; align-items: center; gap: 6px;
+}
+.toc summary::-webkit-details-marker { display: none; }
+.toc summary::before { content: "▸"; color: var(--muted); font-size: 13px; }
+.toc[open] summary::before { content: "▾"; }
+.toc ol { margin: 10px 0 2px; padding-left: 20px; }
+.toc li { margin-bottom: 5px; }
+.toc li.toc-sub { margin-left: 14px; }
+.toc a { color: var(--text); font-size: 15px; font-weight: 600; }
+.toc a:hover { color: var(--accent); text-decoration: none; }
+.post-body #post-content h2, .post-body #post-content h3 { scroll-margin-top: 128px; }
+
+/* ── 인기 글 ──────────────────────────────────── */
+.popular-section { margin-bottom: 28px; }
+.popular-section h2 { font-size: 20px; font-weight: 800; margin: 0 0 4px; letter-spacing: -0.02em; }
+.popular-list { counter-reset: popular-rank; }
+.popular-list .post-card { padding-left: 20px; }
+.popular-rank {
+  position: absolute; top: 10px; left: 10px; z-index: 2;
+  width: 26px; height: 26px; border-radius: 999px;
+  background: var(--accent); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13.5px; font-weight: 800;
+}
+.popular-views { color: var(--muted); font-size: 13px; white-space: nowrap; }
+.post-info .popular-views { margin-left: 8px; }

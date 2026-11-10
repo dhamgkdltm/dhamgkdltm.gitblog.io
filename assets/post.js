@@ -34,6 +34,8 @@ async function load() {
       dateEl.textContent += ` · 수정일 ${entry.updated}`;
     }
     contentEl.innerHTML = marked.parse(body);
+    buildToc(contentEl);
+    initReadingProgress();
     const editLink = document.getElementById("edit-this-post");
     if (editLink) editLink.href = `${BASE}/admin.html#edit=${slug}`;
     const tagsEl = document.getElementById("post-tags");
@@ -59,7 +61,56 @@ async function load() {
     document.getElementById("comments").style.display = "none";
     const sb = document.querySelector(".share-box");
     if (sb) sb.style.display = "none";
+    const rp = document.getElementById("reading-progress");
+    if (rp) rp.style.display = "none";
+    const toc = document.getElementById("toc");
+    if (toc) toc.hidden = true;
   }
+}
+
+// 본문 ## / ### 소제목으로 자동 목차 만들기 (2개 이상일 때만 표시)
+function buildToc(contentEl) {
+  const toc = document.getElementById("toc");
+  const list = document.getElementById("toc-list");
+  if (!toc || !list) return;
+  const heads = contentEl.querySelectorAll("h2, h3");
+  if (heads.length < 2) return;
+  list.innerHTML = "";
+  heads.forEach((h, i) => {
+    const id = `toc-${i + 1}`;
+    h.id = id;
+    const li = document.createElement("li");
+    if (h.tagName === "H3") li.className = "toc-sub";
+    const a = document.createElement("a");
+    a.href = `#${id}`;
+    a.textContent = h.textContent.trim();
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      h.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    li.appendChild(a);
+    list.appendChild(li);
+  });
+  toc.hidden = false;
+}
+
+// 읽기 진행바: transform scaleX만으로 갱신 (레이아웃·페인트 유발 없음)
+let progressRaf = 0;
+function initReadingProgress() {
+  const bar = document.getElementById("reading-progress-bar");
+  if (!bar) return;
+  const update = () => {
+    progressRaf = 0;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    bar.style.transform = `scaleX(${p})`;
+  };
+  const onScroll = () => {
+    if (!progressRaf) progressRaf = requestAnimationFrame(update);
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  update();
 }
 
 // 이전/다음 글 내비 + 본문 스와이프 (목록은 최신 순)
