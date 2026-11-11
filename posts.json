@@ -1,14 +1,14 @@
 [
   {
-    "slug": "post-20261111-210722",
-    "title": "새 지저귐은 노래일까, 말일까 — 367종 새와 52개 언어를 비교했더니",
+    "slug": "post-20261111-210900",
+    "title": "옛사람도 못 말린 고양이 사랑 — 한문 고전 속 고양이들",
     "date": "2026-11-11",
     "updated": "2026-11-11",
-    "excerpt": "원문 기사: 인간 말·노래, 새 지저귐과 음향 패턴 유사 새가 지저귀는 소리. 노래일까요, 말일까요? 우리는 보통 '새의 노래'라고 부릅니다. 그런데 캐나다 맥길…",
+    "excerpt": "원문 기사: 옛사람도 못 말린 고양이 사랑… '묘묘잡기' 고양이에 관한 옛글을 모은 책이 새로 나왔다. 제목부터가 다정하다. '묘묘잡기' , 풀이하면 \"오묘한 고…",
     "published": true,
-    "category": "호기심",
+    "category": "인문학",
     "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794398831903-cuh6qj.jpg"
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794398914131-xs9ur0.jpg"
   },
   {
     "slug": "post-20261111-075235",
@@ -20,6 +20,17 @@
     "category": "기술",
     "tags": [],
     "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794351123050-1zkbzu.jpg"
+  },
+  {
+    "slug": "post-20261111-210722",
+    "title": "새 지저귐은 노래일까, 말일까 — 367종 새와 52개 언어를 비교했더니",
+    "date": "2026-11-11",
+    "updated": "2026-11-11",
+    "excerpt": "원문 기사: 인간 말·노래, 새 지저귐과 음향 패턴 유사 새가 지저귀는 소리. 노래일까요, 말일까요? 우리는 보통 '새의 노래'라고 부릅니다. 그런데 캐나다 맥길…",
+    "published": true,
+    "category": "호기심",
+    "tags": [],
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794398831903-cuh6qj.jpg"
   },
   {
     "slug": "post-20261110-211759",
@@ -72,17 +83,6 @@
     "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1792966433636-uuu4j8.jpg"
   },
   {
-    "slug": "post-20261025-232948",
-    "title": "문이 없는 방, 죽은 세 사람이 만든 지옥",
-    "date": "2026-10-25",
-    "updated": "2026-10-25",
-    "excerpt": "원문 참고: 불도, 고문 도구도 없는 방이 있다. 사르트르의 에서 죽은 세 사람은 그 방에 영원히 갇힌다. 지옥이 무섭지 않은 이유는, 고통이 바깥에서 오지 않기…",
-    "published": true,
-    "category": "철학",
-    "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1792938548616-f3ry7w.jpg"
-  },
-  {
     "slug": "post-20261025-155700",
     "title": "늙은 세포를 다시 젊게 만드는 유전자, SRSF1",
     "date": "2026-10-25",
@@ -95,5 +95,16 @@
       "유전자"
     ],
     "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1792910645984-ncv9ao.jpg"
+  },
+  {
+    "slug": "post-20261025-232948",
+    "title": "문이 없는 방, 죽은 세 사람이 만든 지옥",
+    "date": "2026-10-25",
+    "updated": "2026-10-25",
+    "excerpt": "원문 참고: 불도, 고문 도구도 없는 방이 있다. 사르트르의 에서 죽은 세 사람은 그 방에 영원히 갇힌다. 지옥이 무섭지 않은 이유는, 고통이 바깥에서 오지 않기…",
+    "published": true,
+    "category": "철학",
+    "tags": [],
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1792938548616-f3ry7w.jpg"
   }
 ]
