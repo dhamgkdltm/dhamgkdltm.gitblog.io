@@ -1,5 +1,16 @@
 [
   {
+    "slug": "post-20261123-134719",
+    "title": "원자 배열이 뒤죽박죽인 반도체, AI가 그 속을 들여다봤다",
+    "date": "2026-11-23",
+    "updated": "2026-11-23",
+    "excerpt": "원문 기사: 연세대, 비정질 반도체의 미세 구조 분석하는 AI 기반 분석법 개발 — 첨단산업경제 이미지: 디스플레이 패널 단면을 확대한 모습 — 질서 없이 흩어진…",
+    "published": true,
+    "category": "기술",
+    "tags": [],
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1795409212574-40z92b.jpg"
+  },
+  {
     "slug": "post-20261123-075120",
     "title": "존재해선 안 될 별, 28광년 밖에 있었다 — 웰로포아이 삼중성계의 수수께끼",
     "date": "2026-11-23",
@@ -9,28 +20,6 @@
     "category": "과학",
     "tags": [],
     "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1795387804120-8g11ol.jpg"
-  },
-  {
-    "slug": "post-20261122-134920",
-    "title": "625개의 문, 25번의 열쇠 — AI가 찾아낸 초고감도 비타민C 센서",
-    "date": "2026-11-22",
-    "updated": "2026-11-22",
-    "excerpt": "원문 기사: 성균관대학교 박진성 교수팀, AI로 초고감도 비타민 C 센서 개발… 25회 실험으로 625개 조건 최적화 — 한국강사신문 625개의 문 문 625개가…",
-    "published": true,
-    "category": "과학",
-    "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1795322917600-a3vl2e.jpg"
-  },
-  {
-    "slug": "post-20261122-074812",
-    "title": "물로 비행기 연료를 만든다고요? — 그린수소와 e-SAF 이야기",
-    "date": "2026-11-22",
-    "updated": "2026-11-22",
-    "excerpt": "원문 기사: 머니투데이 2026 11 18 비행기 연료를 물로 만든다고 하면, 믿어지시나요? 물에 전기를 흘려보내면 수소와 산소가 갈라지고, 그 수소로 하늘을 나…",
-    "published": true,
-    "category": "기술",
-    "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1795301260246-zv8eiu.jpg"
   },
   {
     "slug": "post-20261122-194719",
@@ -44,26 +33,26 @@
     "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1795344421781-bx41bc.jpg"
   },
   {
-    "slug": "post-20261121-194646",
-    "title": "초코비 무한 리필의 초대장 — 짱구 극장판, 12월 3일 개봉",
-    "date": "2026-11-21",
-    "updated": "2026-11-21",
-    "excerpt": "원문 기사: 극장판 짱구는 못말려, 프리미어 상영회·코스튬 무대인사 확정 — 톱스타뉴스 \"여름방학 마을에서는 초코비 무한 리필, 수박 공짜\" 아침에 눈을 떴더니 …",
+    "slug": "post-20261122-074812",
+    "title": "물로 비행기 연료를 만든다고요? — 그린수소와 e-SAF 이야기",
+    "date": "2026-11-22",
+    "updated": "2026-11-22",
+    "excerpt": "원문 기사: 머니투데이 2026 11 18 비행기 연료를 물로 만든다고 하면, 믿어지시나요? 물에 전기를 흘려보내면 수소와 산소가 갈라지고, 그 수소로 하늘을 나…",
     "published": true,
-    "category": "애니메이션",
+    "category": "기술",
     "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1795257906422-0ig9yx.jpg"
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1795301260246-zv8eiu.jpg"
   },
   {
-    "slug": "post-20261121-075138",
-    "title": "나는 나를 연구한다\" — 몽테뉴 '에세', 500년 전 자기 성찰의 고전",
-    "date": "2026-11-21",
-    "updated": "2026-11-21",
-    "excerpt": "원문 기사: 자율적 개인의 각성 담은 현대적 고전 — 한겨레 1571년, 성의 탑 방으로 1571년, 프랑스 보르도 근처의 한 성. 서른여덟 살의 남자가 모든 공…",
+    "slug": "post-20261122-134920",
+    "title": "625개의 문, 25번의 열쇠 — AI가 찾아낸 초고감도 비타민C 센서",
+    "date": "2026-11-22",
+    "updated": "2026-11-22",
+    "excerpt": "원문 기사: 성균관대학교 박진성 교수팀, AI로 초고감도 비타민 C 센서 개발… 25회 실험으로 625개 조건 최적화 — 한국강사신문 625개의 문 문 625개가…",
     "published": true,
-    "category": "철학",
+    "category": "과학",
     "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1795215052206-qcrk0o.jpg"
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1795322917600-a3vl2e.jpg"
   },
   {
     "slug": "post-20261121-134907",
@@ -77,26 +66,26 @@
     "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1795236474491-g7id08.jpg"
   },
   {
-    "slug": "post-20261120-134718",
-    "title": "구형 브라우저도 최신 웹을 척척 — 설명서를 읽고 통역 코드를 쓰는 '미니폴리'",
-    "date": "2026-11-20",
-    "updated": "2026-11-20",
-    "excerpt": "원문 기사: 고려대 \"자바스크립트 호환성 코드 수작업 끝\"…자동 생성 기술 개발 — 이데일리 2026 11 18 낡은 브라우저가 새 웹사이트를 열면 오래된 컴퓨터…",
+    "slug": "post-20261121-075138",
+    "title": "나는 나를 연구한다\" — 몽테뉴 '에세', 500년 전 자기 성찰의 고전",
+    "date": "2026-11-21",
+    "updated": "2026-11-21",
+    "excerpt": "원문 기사: 자율적 개인의 각성 담은 현대적 고전 — 한겨레 1571년, 성의 탑 방으로 1571년, 프랑스 보르도 근처의 한 성. 서른여덟 살의 남자가 모든 공…",
     "published": true,
-    "category": "기술",
+    "category": "철학",
     "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1795150006728-7tn6ei.jpg"
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1795215052206-qcrk0o.jpg"
   },
   {
-    "slug": "post-20261120-080247",
-    "title": "갈라지지 않고 굽힘에도 강한 탄소섬유 — 금오공대, 층간 강화 기술 개발",
-    "date": "2026-11-20",
-    "updated": "2026-11-20",
-    "excerpt": "원문 기사: 국립금오공대, 인성·강도 동시에 높인 탄소섬유복합재 층간 강화 기술 개발 — 전자신문 2026년 11월 18일 탄소섬유는 가볍고 강하기로 유명합니다.…",
+    "slug": "post-20261121-194646",
+    "title": "초코비 무한 리필의 초대장 — 짱구 극장판, 12월 3일 개봉",
+    "date": "2026-11-21",
+    "updated": "2026-11-21",
+    "excerpt": "원문 기사: 극장판 짱구는 못말려, 프리미어 상영회·코스튬 무대인사 확정 — 톱스타뉴스 \"여름방학 마을에서는 초코비 무한 리필, 수박 공짜\" 아침에 눈을 떴더니 …",
     "published": true,
-    "category": "과학",
+    "category": "애니메이션",
     "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1795129108211-01lqgl.jpg"
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1795257906422-0ig9yx.jpg"
   },
   {
     "slug": "post-20261120-203621",
@@ -110,26 +99,26 @@
     "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1795174565955-3yxflu.jpg"
   },
   {
-    "slug": "post-20261119-194602",
-    "title": "빛만 바꿨을 뿐인데, 나비가 다른 색이 됐다 — 물체 색을 바꾸는 스마트 조명",
-    "date": "2026-11-19",
-    "updated": "2026-11-19",
-    "excerpt": "원문 기사: 빛만 조절해 물체 색 바꾼다…기계연, 색상 원격 제어 스마트 조명 개발 — 데일리안 2026 11 17 색은 물체에 있는 게 아니다 사과를 떠올려보세…",
+    "slug": "post-20261120-080247",
+    "title": "갈라지지 않고 굽힘에도 강한 탄소섬유 — 금오공대, 층간 강화 기술 개발",
+    "date": "2026-11-20",
+    "updated": "2026-11-20",
+    "excerpt": "원문 기사: 국립금오공대, 인성·강도 동시에 높인 탄소섬유복합재 층간 강화 기술 개발 — 전자신문 2026년 11월 18일 탄소섬유는 가볍고 강하기로 유명합니다.…",
+    "published": true,
+    "category": "과학",
+    "tags": [],
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1795129108211-01lqgl.jpg"
+  },
+  {
+    "slug": "post-20261120-134718",
+    "title": "구형 브라우저도 최신 웹을 척척 — 설명서를 읽고 통역 코드를 쓰는 '미니폴리'",
+    "date": "2026-11-20",
+    "updated": "2026-11-20",
+    "excerpt": "원문 기사: 고려대 \"자바스크립트 호환성 코드 수작업 끝\"…자동 생성 기술 개발 — 이데일리 2026 11 18 낡은 브라우저가 새 웹사이트를 열면 오래된 컴퓨터…",
     "published": true,
     "category": "기술",
     "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1795085131008-ounuqp.jpg"
-  },
-  {
-    "slug": "post-20261119-075048",
-    "title": "8년 만에 다시 극장으로 — '너의 췌장을 먹고 싶어' 11월 18일 재개봉",
-    "date": "2026-11-19",
-    "updated": "2026-11-19",
-    "excerpt": "원문 기사: ‘너의 췌장을 먹고 싶어’ 18일 재개봉 — bnt뉴스 2026 11 13 2018년, 한 소년이 병원에서 우연히 일기장 한 권을 주웠다. 그 일기장…",
-    "published": true,
-    "category": "애니메이션",
-    "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1795042205519-ad1tfm.jpg"
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1795150006728-7tn6ei.jpg"
   },
   {
     "slug": "post-20261119-135113",
@@ -143,26 +132,26 @@
     "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1795063826488-y114tt.jpg"
   },
   {
-    "slug": "post-20261118-134927",
-    "title": "뇌처럼 셋으로 나눠 일하는 AI — 인식 정확도 53.8%에서 88%로",
-    "date": "2026-11-18",
-    "updated": "2026-11-18",
-    "excerpt": "원문 기사: 촬영 현장에 세 사람이 있다 로봇이 카메라로 세상을 본다고 상상해보세요. 그런데 그 로봇이 움직이는 촬영 현장이라고 생각하면, 혼자서는 안 되는 일이…",
+    "slug": "post-20261119-075048",
+    "title": "8년 만에 다시 극장으로 — '너의 췌장을 먹고 싶어' 11월 18일 재개봉",
+    "date": "2026-11-19",
+    "updated": "2026-11-19",
+    "excerpt": "원문 기사: ‘너의 췌장을 먹고 싶어’ 18일 재개봉 — bnt뉴스 2026 11 13 2018년, 한 소년이 병원에서 우연히 일기장 한 권을 주웠다. 그 일기장…",
+    "published": true,
+    "category": "애니메이션",
+    "tags": [],
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1795042205519-ad1tfm.jpg"
+  },
+  {
+    "slug": "post-20261119-194602",
+    "title": "빛만 바꿨을 뿐인데, 나비가 다른 색이 됐다 — 물체 색을 바꾸는 스마트 조명",
+    "date": "2026-11-19",
+    "updated": "2026-11-19",
+    "excerpt": "원문 기사: 빛만 조절해 물체 색 바꾼다…기계연, 색상 원격 제어 스마트 조명 개발 — 데일리안 2026 11 17 색은 물체에 있는 게 아니다 사과를 떠올려보세…",
     "published": true,
     "category": "기술",
     "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794977275689-5szf4d.jpg"
-  },
-  {
-    "slug": "post-20261118-075353",
-    "title": "하천 물속 DNA로 수질을 읽는다 — 지표종 자동 선별 'KGBE'",
-    "date": "2026-11-18",
-    "updated": "2026-11-18",
-    "excerpt": "원문 기사: 상명대 기장서 교수팀, 환경DNA 지표종 자동 선별 기법 개발 — 뉴시스 2026 11 16 물 한 병을 떠옵니다 하천가에 서서 물 한 병을 떠올려 …",
-    "published": true,
-    "category": "과학",
-    "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794955960789-v3fu2t.jpg"
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1795085131008-ounuqp.jpg"
   },
   {
     "slug": "post-20261118-194656",
@@ -176,26 +165,26 @@
     "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794998784034-xx3fy2.jpg"
   },
   {
-    "slug": "post-20261117-194724",
-    "title": "손글씨가 사라지는 시대, 편지의 힘",
-    "date": "2026-11-17",
-    "updated": "2026-11-17",
-    "excerpt": "받는 사람에게, 안녕하세요. 이 글을 편지처럼 시작해봅니다. 화면으로 읽는 글인데도, 편지라고 부르니 문장이 조금 느려지는 것 같아요. 손으로 쓴 글씨는 본래 그…",
-    "published": true,
-    "category": "인문학",
-    "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794912395026-hsy7sr.jpg"
-  },
-  {
-    "slug": "post-20261117-075346",
-    "title": "사람 DNA 스위치, 생쥐 뇌에서도 작동 — 영장류 뇌의 비밀 'Dc3-4'",
-    "date": "2026-11-17",
-    "updated": "2026-11-17",
-    "excerpt": "원문 기사: 사람 DNA 스위치, 생쥐 뇌서도 작동…영장류 뇌 진화의 비밀 — 서울신문 2026 11 15 인간과 생쥐는 DACH1이라는 유전자를 둘 다 갖고 있…",
+    "slug": "post-20261118-075353",
+    "title": "하천 물속 DNA로 수질을 읽는다 — 지표종 자동 선별 'KGBE'",
+    "date": "2026-11-18",
+    "updated": "2026-11-18",
+    "excerpt": "원문 기사: 상명대 기장서 교수팀, 환경DNA 지표종 자동 선별 기법 개발 — 뉴시스 2026 11 16 물 한 병을 떠옵니다 하천가에 서서 물 한 병을 떠올려 …",
     "published": true,
     "category": "과학",
     "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794869565567-sjq9il.jpg"
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794955960789-v3fu2t.jpg"
+  },
+  {
+    "slug": "post-20261118-134927",
+    "title": "뇌처럼 셋으로 나눠 일하는 AI — 인식 정확도 53.8%에서 88%로",
+    "date": "2026-11-18",
+    "updated": "2026-11-18",
+    "excerpt": "원문 기사: 촬영 현장에 세 사람이 있다 로봇이 카메라로 세상을 본다고 상상해보세요. 그런데 그 로봇이 움직이는 촬영 현장이라고 생각하면, 혼자서는 안 되는 일이…",
+    "published": true,
+    "category": "기술",
+    "tags": [],
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794977275689-5szf4d.jpg"
   },
   {
     "slug": "post-20261117-134925",
@@ -209,26 +198,26 @@
     "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794890904601-7tqroa.jpg"
   },
   {
-    "slug": "post-20261116-134748",
-    "title": "신호가 새는 틈을 메우다 — 6G·위성통신용 세라믹, 유전손실 0.0006",
-    "date": "2026-11-16",
-    "updated": "2026-11-16",
-    "excerpt": "원문 기사: 세라믹기술원, 6G·위성통신용 저손실 세라믹 소재 개발 — 전기신문 2026 11 15 이미지: 층층이 쌓인 세라믹 판과 금빛 회로 사이를 호박색 빛…",
-    "published": true,
-    "category": "기술",
-    "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794804385320-mf816i.jpg"
-  },
-  {
-    "slug": "post-20261116-075203",
-    "title": "암세포 대신 '토양'을 바꿨다 — 췌장암 동물모델 완치율 최대 87.5%, 완치형 항암제 MP010",
-    "date": "2026-11-16",
-    "updated": "2026-11-16",
-    "excerpt": "원문: 홍천리버뉴스 2026 11 14 암을 잡는다고 하면, 보통 암세포를 직접 겨누는 그림을 떠올린다. 독한 약으로 암세포를 죽이는 것. 그런데 이번 연구는 총…",
+    "slug": "post-20261117-075346",
+    "title": "사람 DNA 스위치, 생쥐 뇌에서도 작동 — 영장류 뇌의 비밀 'Dc3-4'",
+    "date": "2026-11-17",
+    "updated": "2026-11-17",
+    "excerpt": "원문 기사: 사람 DNA 스위치, 생쥐 뇌서도 작동…영장류 뇌 진화의 비밀 — 서울신문 2026 11 15 인간과 생쥐는 DACH1이라는 유전자를 둘 다 갖고 있…",
     "published": true,
     "category": "과학",
     "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794783047544-glccit.jpg"
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794869565567-sjq9il.jpg"
+  },
+  {
+    "slug": "post-20261117-194724",
+    "title": "손글씨가 사라지는 시대, 편지의 힘",
+    "date": "2026-11-17",
+    "updated": "2026-11-17",
+    "excerpt": "받는 사람에게, 안녕하세요. 이 글을 편지처럼 시작해봅니다. 화면으로 읽는 글인데도, 편지라고 부르니 문장이 조금 느려지는 것 같아요. 손으로 쓴 글씨는 본래 그…",
+    "published": true,
+    "category": "인문학",
+    "tags": [],
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794912395026-hsy7sr.jpg"
   },
   {
     "slug": "post-20261116-194727",
@@ -242,26 +231,26 @@
     "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794825967051-cp1nr7.jpg"
   },
   {
-    "slug": "post-20261115-194928",
-    "title": "11월 극장은 애니메이션 쌍끌이 — 코난 30주년·체리 26년 만·치이카와 263만 명",
-    "date": "2026-11-15",
-    "updated": "2026-11-15",
-    "excerpt": "원문 기사: 코난 신작 1위, 치이카와는 예매 선두…애니 열풍 — 오토캐스트파이 2026 11 08 11월 극장가의 상영 시간표를 펼쳐봅니다. 한 달 중 가장 손…",
-    "published": true,
-    "category": "애니메이션",
-    "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794739718848-83ra13.jpg"
-  },
-  {
-    "slug": "post-20261115-075446",
-    "title": "8분마다 깜빡이는 전파 — 죽은 별과 태양 닮은 별의 쌍성",
-    "date": "2026-11-15",
-    "updated": "2026-11-15",
-    "excerpt": "원문 기사: A rare star system emits radio signals every 8 minutes — phys.org 2026 11 12 이미지: 작…",
+    "slug": "post-20261116-075203",
+    "title": "암세포 대신 '토양'을 바꿨다 — 췌장암 동물모델 완치율 최대 87.5%, 완치형 항암제 MP010",
+    "date": "2026-11-16",
+    "updated": "2026-11-16",
+    "excerpt": "원문: 홍천리버뉴스 2026 11 14 암을 잡는다고 하면, 보통 암세포를 직접 겨누는 그림을 떠올린다. 독한 약으로 암세포를 죽이는 것. 그런데 이번 연구는 총…",
     "published": true,
     "category": "과학",
     "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794696793617-s324yc.jpg"
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794783047544-glccit.jpg"
+  },
+  {
+    "slug": "post-20261116-134748",
+    "title": "신호가 새는 틈을 메우다 — 6G·위성통신용 세라믹, 유전손실 0.0006",
+    "date": "2026-11-16",
+    "updated": "2026-11-16",
+    "excerpt": "원문 기사: 세라믹기술원, 6G·위성통신용 저손실 세라믹 소재 개발 — 전기신문 2026 11 15 이미지: 층층이 쌓인 세라믹 판과 금빛 회로 사이를 호박색 빛…",
+    "published": true,
+    "category": "기술",
+    "tags": [],
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794804385320-mf816i.jpg"
   },
   {
     "slug": "post-20261115-134817",
@@ -275,26 +264,26 @@
     "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794718047110-zvcjwj.jpg"
   },
   {
-    "slug": "post-20261114-134717",
-    "title": "15분 충전하고 1,000시간 버티는 전지 — 리튬금속전지의 고질병을 푼 '양쪽성 이온'",
-    "date": "2026-11-14",
-    "updated": "2026-11-14",
-    "excerpt": "원문 기사: 동국대 김성곤·이용혁 교수팀, 양쪽성이온 고분자로 '준고체 전해질' 약점 개선 … 리튬금속전지 수명·성능 향상 — 뉴데일리 2026 11 11 충전기…",
-    "published": true,
-    "category": "기술",
-    "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794631583823-xpdg5e.jpg"
-  },
-  {
-    "slug": "post-20261114-074929",
-    "title": "제임스웹, 우주 어디서도 본 적 없는 '금지된 신호' 포착 — 삼수소 양이온 H3+의 회전 빛",
-    "date": "2026-11-14",
-    "updated": "2026-11-14",
-    "excerpt": "원문 기사: JWST Detects a 'Forbidden' Signal Never Before Seen in The Universe – Not Even in a…",
+    "slug": "post-20261115-075446",
+    "title": "8분마다 깜빡이는 전파 — 죽은 별과 태양 닮은 별의 쌍성",
+    "date": "2026-11-15",
+    "updated": "2026-11-15",
+    "excerpt": "원문 기사: A rare star system emits radio signals every 8 minutes — phys.org 2026 11 12 이미지: 작…",
     "published": true,
     "category": "과학",
     "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794610137906-z4ixsf.jpg"
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794696793617-s324yc.jpg"
+  },
+  {
+    "slug": "post-20261115-194928",
+    "title": "11월 극장은 애니메이션 쌍끌이 — 코난 30주년·체리 26년 만·치이카와 263만 명",
+    "date": "2026-11-15",
+    "updated": "2026-11-15",
+    "excerpt": "원문 기사: 코난 신작 1위, 치이카와는 예매 선두…애니 열풍 — 오토캐스트파이 2026 11 08 11월 극장가의 상영 시간표를 펼쳐봅니다. 한 달 중 가장 손…",
+    "published": true,
+    "category": "애니메이션",
+    "tags": [],
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794739718848-83ra13.jpg"
   },
   {
     "slug": "post-20261114-194603",
@@ -308,26 +297,26 @@
     "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794653124985-3pt9wi.jpg"
   },
   {
-    "slug": "post-20261113-194607",
-    "title": "죽음은 우리와 무관하다 — 에피쿠로스의 죽음론",
-    "date": "2026-11-13",
-    "updated": "2026-11-13",
-    "excerpt": "원문 글: Epicurus: Don't Worry about Death, It Won't Even Last a Millisecond — Philosophy Bre…",
-    "published": true,
-    "category": "철학",
-    "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794566722940-pblfdt.jpg"
-  },
-  {
-    "slug": "post-20261113-080433",
-    "title": "인간 게놈지도 다음은 '뇌 지도' — 2,550만 개 뇌세포의 주소록",
-    "date": "2026-11-13",
-    "updated": "2026-11-13",
-    "excerpt": "원문 기사: 인간 게놈지도 다음은 '뇌 지도'…세계 55개 연구기관 뭉쳤다 — 조선비즈 2026 11 13 인간의 유전정보를 해독한 게놈 프로젝트가 '생명의 설계…",
+    "slug": "post-20261114-074929",
+    "title": "제임스웹, 우주 어디서도 본 적 없는 '금지된 신호' 포착 — 삼수소 양이온 H3+의 회전 빛",
+    "date": "2026-11-14",
+    "updated": "2026-11-14",
+    "excerpt": "원문 기사: JWST Detects a 'Forbidden' Signal Never Before Seen in The Universe – Not Even in a…",
     "published": true,
     "category": "과학",
     "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794524628011-osmn9z.jpg"
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794610137906-z4ixsf.jpg"
+  },
+  {
+    "slug": "post-20261114-134717",
+    "title": "15분 충전하고 1,000시간 버티는 전지 — 리튬금속전지의 고질병을 푼 '양쪽성 이온'",
+    "date": "2026-11-14",
+    "updated": "2026-11-14",
+    "excerpt": "원문 기사: 동국대 김성곤·이용혁 교수팀, 양쪽성이온 고분자로 '준고체 전해질' 약점 개선 … 리튬금속전지 수명·성능 향상 — 뉴데일리 2026 11 11 충전기…",
+    "published": true,
+    "category": "기술",
+    "tags": [],
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794631583823-xpdg5e.jpg"
   },
   {
     "slug": "post-20261113-134751",
@@ -341,26 +330,26 @@
     "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794545228489-a2g32x.jpg"
   },
   {
-    "slug": "post-20261112-134610",
-    "title": "100마이크로초를 붙잡았다 — 국산 초전도 큐비트, 2027년 목표를 1년 만에 넘다",
-    "date": "2026-11-12",
-    "updated": "2026-11-12",
-    "excerpt": "원문 기사: 2027년 목표 1년 만에 깼다…韓 양자컴퓨터 '속도전' — 뉴시스 2026 11 10 100마이크로초. 1초를 1만 개로 쪼갠 것 중 100개, 그…",
-    "published": true,
-    "category": "기술",
-    "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794458754355-5n9p7i.jpg"
-  },
-  {
-    "slug": "post-20261112-074903",
-    "title": "별빛을 걷어내면 숨어 있던 행성이 보인다 — 외계행성 영상 기술 '플립', 민감도 최대 15배",
-    "date": "2026-11-12",
-    "updated": "2026-11-12",
-    "excerpt": "원문 기사: 우리가 몰랐던 빛이 가린 '별의 민낯' — 서울신문 2026 11 05 밤하늘의 별 하나를 오래 바라본다고 상상해 보세요. 그 별 옆에 행성이 하나 …",
+    "slug": "post-20261113-080433",
+    "title": "인간 게놈지도 다음은 '뇌 지도' — 2,550만 개 뇌세포의 주소록",
+    "date": "2026-11-13",
+    "updated": "2026-11-13",
+    "excerpt": "원문 기사: 인간 게놈지도 다음은 '뇌 지도'…세계 55개 연구기관 뭉쳤다 — 조선비즈 2026 11 13 인간의 유전정보를 해독한 게놈 프로젝트가 '생명의 설계…",
     "published": true,
     "category": "과학",
     "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794437303663-u5j9y5.jpg"
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794524628011-osmn9z.jpg"
+  },
+  {
+    "slug": "post-20261113-194607",
+    "title": "죽음은 우리와 무관하다 — 에피쿠로스의 죽음론",
+    "date": "2026-11-13",
+    "updated": "2026-11-13",
+    "excerpt": "원문 글: Epicurus: Don't Worry about Death, It Won't Even Last a Millisecond — Philosophy Bre…",
+    "published": true,
+    "category": "철학",
+    "tags": [],
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794566722940-pblfdt.jpg"
   },
   {
     "slug": "post-20261112-194934",
@@ -374,15 +363,37 @@
     "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794480526804-ok1d25.jpg"
   },
   {
-    "slug": "post-20261111-210900",
-    "title": "옛사람도 못 말린 고양이 사랑 — 한문 고전 속 고양이들",
+    "slug": "post-20261112-074903",
+    "title": "별빛을 걷어내면 숨어 있던 행성이 보인다 — 외계행성 영상 기술 '플립', 민감도 최대 15배",
+    "date": "2026-11-12",
+    "updated": "2026-11-12",
+    "excerpt": "원문 기사: 우리가 몰랐던 빛이 가린 '별의 민낯' — 서울신문 2026 11 05 밤하늘의 별 하나를 오래 바라본다고 상상해 보세요. 그 별 옆에 행성이 하나 …",
+    "published": true,
+    "category": "과학",
+    "tags": [],
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794437303663-u5j9y5.jpg"
+  },
+  {
+    "slug": "post-20261112-134610",
+    "title": "100마이크로초를 붙잡았다 — 국산 초전도 큐비트, 2027년 목표를 1년 만에 넘다",
+    "date": "2026-11-12",
+    "updated": "2026-11-12",
+    "excerpt": "원문 기사: 2027년 목표 1년 만에 깼다…韓 양자컴퓨터 '속도전' — 뉴시스 2026 11 10 100마이크로초. 1초를 1만 개로 쪼갠 것 중 100개, 그…",
+    "published": true,
+    "category": "기술",
+    "tags": [],
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794458754355-5n9p7i.jpg"
+  },
+  {
+    "slug": "post-20261111-210722",
+    "title": "새 지저귐은 노래일까, 말일까 — 367종 새와 52개 언어를 비교했더니",
     "date": "2026-11-11",
     "updated": "2026-11-11",
-    "excerpt": "원문 기사: 옛사람도 못 말린 고양이 사랑… '묘묘잡기' 고양이에 관한 옛글을 모은 책이 새로 나왔다. 제목부터가 다정하다. '묘묘잡기' , 풀이하면 \"오묘한 고…",
+    "excerpt": "원문 기사: 인간 말·노래, 새 지저귐과 음향 패턴 유사 새가 지저귀는 소리. 노래일까요, 말일까요? 우리는 보통 '새의 노래'라고 부릅니다. 그런데 캐나다 맥길…",
     "published": true,
-    "category": "인문학",
+    "category": "호기심",
     "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794398914131-xs9ur0.jpg"
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794398831903-cuh6qj.jpg"
   },
   {
     "slug": "post-20261111-075235",
@@ -396,15 +407,15 @@
     "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794351123050-1zkbzu.jpg"
   },
   {
-    "slug": "post-20261111-210722",
-    "title": "새 지저귐은 노래일까, 말일까 — 367종 새와 52개 언어를 비교했더니",
+    "slug": "post-20261111-210900",
+    "title": "옛사람도 못 말린 고양이 사랑 — 한문 고전 속 고양이들",
     "date": "2026-11-11",
     "updated": "2026-11-11",
-    "excerpt": "원문 기사: 인간 말·노래, 새 지저귐과 음향 패턴 유사 새가 지저귀는 소리. 노래일까요, 말일까요? 우리는 보통 '새의 노래'라고 부릅니다. 그런데 캐나다 맥길…",
+    "excerpt": "원문 기사: 옛사람도 못 말린 고양이 사랑… '묘묘잡기' 고양이에 관한 옛글을 모은 책이 새로 나왔다. 제목부터가 다정하다. '묘묘잡기' , 풀이하면 \"오묘한 고…",
     "published": true,
-    "category": "호기심",
+    "category": "인문학",
     "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794398831903-cuh6qj.jpg"
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1794398914131-xs9ur0.jpg"
   },
   {
     "slug": "post-20261110-211759",
@@ -457,6 +468,17 @@
     "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1792966433636-uuu4j8.jpg"
   },
   {
+    "slug": "post-20261025-232948",
+    "title": "문이 없는 방, 죽은 세 사람이 만든 지옥",
+    "date": "2026-10-25",
+    "updated": "2026-10-25",
+    "excerpt": "원문 참고: 불도, 고문 도구도 없는 방이 있다. 사르트르의 에서 죽은 세 사람은 그 방에 영원히 갇힌다. 지옥이 무섭지 않은 이유는, 고통이 바깥에서 오지 않기…",
+    "published": true,
+    "category": "철학",
+    "tags": [],
+    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1792938548616-f3ry7w.jpg"
+  },
+  {
     "slug": "post-20261025-155700",
     "title": "늙은 세포를 다시 젊게 만드는 유전자, SRSF1",
     "date": "2026-10-25",
@@ -469,16 +491,5 @@
       "유전자"
     ],
     "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1792910645984-ncv9ao.jpg"
-  },
-  {
-    "slug": "post-20261025-232948",
-    "title": "문이 없는 방, 죽은 세 사람이 만든 지옥",
-    "date": "2026-10-25",
-    "updated": "2026-10-25",
-    "excerpt": "원문 참고: 불도, 고문 도구도 없는 방이 있다. 사르트르의 에서 죽은 세 사람은 그 방에 영원히 갇힌다. 지옥이 무섭지 않은 이유는, 고통이 바깥에서 오지 않기…",
-    "published": true,
-    "category": "철학",
-    "tags": [],
-    "thumb": "https://dhamgkdltm.github.io/dhamgkdltm.gitblog.io/images/1792938548616-f3ry7w.jpg"
   }
 ]
